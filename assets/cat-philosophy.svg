@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- classical bust silhouette (centered) -->
+  <g class="draw-paths" opacity="0.9">
+    <!-- pedestal -->
+    <path d="M150 270 L250 270 L240 240 L160 240 Z" stroke-dasharray="280 280" stroke-dashoffset="280"/>
+    <line x1="156" y1="252" x2="244" y2="252" stroke-dasharray="90 90" stroke-dashoffset="90"/>
+    <!-- shoulders -->
+    <path d="M160 240 Q160 210 180 200 L220 200 Q240 210 240 240" stroke-dasharray="160 160" stroke-dashoffset="160"/>
+    <!-- neck -->
+    <path d="M188 200 L188 178 Q200 184 212 178 L212 200" stroke-dasharray="80 80" stroke-dashoffset="80"/>
+    <!-- head profile (looking left) -->
+    <path d="M212 178 Q220 168 222 150 Q224 130 220 118 Q214 100 200 96 Q174 92 168 116 Q162 138 168 156 Q172 170 184 178" stroke-dasharray="220 220" stroke-dashoffset="220"/>
+    <!-- hair waves -->
+    <path d="M170 116 Q176 108 184 110 Q190 104 198 108 Q206 102 214 110" stroke-dasharray="80 80" stroke-dashoffset="80" opacity="0.7"/>
+    <!-- eye dot -->
+    <circle cx="190" cy="138" r="1.5" fill="currentColor" stroke="none"/>
+  </g>
+  <!-- scroll on left -->
+  <g class="draw-paths" transform="translate(38 200)" opacity="0.8" stroke-dasharray="260 260" stroke-dashoffset="260">
+    <path d="M0 8 Q0 0 8 0 L72 0 Q80 0 80 8 L80 32 Q80 40 72 40 L8 40 Q0 40 0 32 Z"/>
+    <line x1="14" y1="14" x2="66" y2="14"/>
+    <line x1="14" y1="22" x2="62" y2="22"/>
+    <line x1="14" y1="30" x2="58" y2="30"/>
+  </g>
+  <!-- olive branch on right -->
+  <g class="draw-paths" transform="translate(280 180)" opacity="0.8" stroke-dasharray="220 220" stroke-dashoffset="220">
+    <path d="M0 60 Q30 40 70 20"/>
+    <ellipse cx="10" cy="52" rx="6" ry="3" transform="rotate(-30 10 52)"/>
+    <ellipse cx="22" cy="46" rx="6" ry="3" transform="rotate(-30 22 46)"/>
+    <ellipse cx="36" cy="38" rx="6" ry="3" transform="rotate(-30 36 38)"/>
+    <ellipse cx="50" cy="30" rx="6" ry="3" transform="rotate(-30 50 30)"/>
+    <ellipse cx="64" cy="22" rx="6" ry="3" transform="rotate(-30 64 22)"/>
+    <ellipse cx="16" cy="58" rx="5" ry="2.5" transform="rotate(20 16 58)" opacity="0.7"/>
+    <ellipse cx="32" cy="50" rx="5" ry="2.5" transform="rotate(20 32 50)" opacity="0.7"/>
+    <ellipse cx="46" cy="42" rx="5" ry="2.5" transform="rotate(20 46 42)" opacity="0.7"/>
+  </g>
+  <!-- small star -->
+  <g opacity="0.6">
+    <path d="M52 40 L54 46 L60 48 L54 50 L52 56 L50 50 L44 48 L50 46 Z" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

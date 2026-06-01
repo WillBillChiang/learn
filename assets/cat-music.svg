@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- lyre frame (left) -->
+  <g class="draw-paths" transform="translate(70 70)" opacity="0.9" stroke-dasharray="520 520" stroke-dashoffset="520">
+    <!-- two curving arms rising from a rounded base -->
+    <path d="M20 150 Q-6 150 -4 116 Q-2 78 22 54 Q40 36 36 8" stroke-width="1.4"/>
+    <path d="M100 150 Q126 150 124 116 Q122 78 98 54 Q80 36 84 8" stroke-width="1.4"/>
+    <!-- rounded sound-bowl base -->
+    <path d="M20 150 Q60 172 100 150 Q104 140 96 132 L24 132 Q16 140 20 150 Z"/>
+    <!-- crossbar (yoke) -->
+    <path d="M30 12 Q60 2 90 12"/>
+  </g>
+  <!-- lyre strings -->
+  <g stroke-dasharray="120 120" stroke-dashoffset="120" class="draw-paths" opacity="0.6">
+    <line x1="120" y1="92" x2="116" y2="196"/>
+    <line x1="134" y1="90" x2="132" y2="196"/>
+    <line x1="148" y1="90" x2="148" y2="196"/>
+    <line x1="162" y1="90" x2="164" y2="196"/>
+    <line x1="176" y1="92" x2="180" y2="196"/>
+  </g>
+  <!-- flowing staff with notes (right) -->
+  <g class="draw-paths" opacity="0.8">
+    <path d="M220 200 Q280 150 340 180 Q380 200 386 160" stroke-dasharray="260 260" stroke-dashoffset="260" stroke-width="1.4"/>
+  </g>
+  <!-- eighth notes riding the staff -->
+  <g class="draw-paths" opacity="0.9">
+    <!-- note 1 -->
+    <g transform="translate(252 168)">
+      <line x1="9" y1="0" x2="9" y2="-44" stroke-dasharray="48 48" stroke-dashoffset="48" stroke-width="1.4"/>
+      <path d="M9 -44 Q24 -40 26 -26" stroke-dasharray="36 36" stroke-dashoffset="36"/>
+      <ellipse cx="3" cy="2" rx="9" ry="6.5" transform="rotate(-20 3 2)" fill="currentColor" stroke="none"/>
+    </g>
+    <!-- beamed pair -->
+    <g transform="translate(322 184)">
+      <line x1="9" y1="0" x2="9" y2="-50" stroke-dasharray="54 54" stroke-dashoffset="54" stroke-width="1.4"/>
+      <line x1="41" y1="-6" x2="41" y2="-56" stroke-dasharray="54 54" stroke-dashoffset="54" stroke-width="1.4"/>
+      <line x1="9" y1="-50" x2="41" y2="-56" stroke-dasharray="36 36" stroke-dashoffset="36" stroke-width="2"/>
+      <ellipse cx="3" cy="2" rx="9" ry="6.5" transform="rotate(-20 3 2)" fill="currentColor" stroke="none"/>
+      <ellipse cx="35" cy="-4" rx="9" ry="6.5" transform="rotate(-20 35 -4)" fill="currentColor" stroke="none"/>
+    </g>
+  </g>
+  <!-- sound waves emanating, upper right -->
+  <g class="draw-paths" opacity="0.6">
+    <path d="M300 70 Q316 56 322 36" stroke-dasharray="70 70" stroke-dashoffset="70"/>
+    <path d="M312 86 Q344 78 358 56" stroke-dasharray="110 110" stroke-dashoffset="110" opacity="0.8"/>
+    <path d="M322 104 Q364 106 384 86" stroke-dasharray="110 110" stroke-dashoffset="110" opacity="0.6"/>
+  </g>
+  <!-- drifting specks like settling notes -->
+  <g fill="currentColor" stroke="none" opacity="0.7">
+    <circle cx="332" cy="40" r="2"/>
+    <circle cx="366" cy="62" r="1.6"/>
+    <circle cx="388" cy="92" r="1.8"/>
+  </g>
+  <!-- small star -->
+  <g opacity="0.65">
+    <path d="M210 60 L212 66 L218 68 L212 70 L210 76 L208 70 L202 68 L208 66 Z" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

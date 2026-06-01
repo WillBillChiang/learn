@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4ede0" />
+  <meta name="description" content="Learn Something New — a quiet, deepening field guide to ideas worth knowing." />
+  <title>Learn Something New</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/flourish.css" />
+  <link rel="stylesheet" href="css/legal.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <!-- Ambient backdrop: constellation/ink particle field, very subtle -->
+  <canvas id="ambient" aria-hidden="true"></canvas>
+
+  <!-- Matted-plate frame: hairline gold rule + engraved corners -->
+  <div class="page-edge" aria-hidden="true"></div>
+
+  <!-- Page-transition wipe overlay -->
+  <div id="page-transition" aria-hidden="true"></div>
+
+  <main id="app" role="main" tabindex="-1"></main>
+
+  <!-- Polite status region for screen-reader navigation announcements -->
+  <div id="sr-status" class="sr-only" role="status" aria-live="polite"></div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div>
+      <span class="site-mark">Learn Something New</span>
+      <span class="site-dot" aria-hidden="true">·</span>
+      <span class="site-sub">a quiet field guide</span>
+    </div>
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="#legal/terms">Terms</a>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <a href="#legal/privacy">Privacy</a>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <a href="#legal/accessibility">Accessibility</a>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <a href="#legal/disclaimer">Disclaimer</a>
+    </nav>
+  </footer>
+
+  <!-- Data files: each may or may not exist; onerror logs without breaking boot -->
+  <script src="data/science.js"      onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/mathematics.js"  onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/technology.js"   onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/philosophy.js"   onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/history.js"      onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/art.js"          onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/nature.js"       onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/cosmos.js"       onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/money.js"        onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/body.js"         onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/mind.js"         onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/craft.js"        onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/home.js"         onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/digital.js"      onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/music.js"        onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+  <script src="data/index.js"        onerror="window.__missingData=(window.__missingData||[]).concat(this.src)"></script>
+
+  <script src="js/topics.js"></script>
+  <script src="js/legal.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/visuals.js"></script>
+</body>
+</html>

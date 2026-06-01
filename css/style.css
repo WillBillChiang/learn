@@ -1,0 +1,2030 @@
+/* ============================================================
+   Learn Something New — Main Stylesheet
+   "Museum monograph meets midnight observatory."
+   ============================================================ */
+
+:root {
+  /* Palette (from SPEC) */
+  --paper:        #f4ede0;
+  --paper-deep:   #ebe1cf;
+  --paper-warm:   #efe6d4;
+  --ink:          #1a1410;
+  --ink-soft:     #3d322a;
+  --ink-mute:     #6b5d50;
+  --accent:       #b8552e;
+  --accent-deep:  #8a3a1a;
+  --gold:         #b8923a;
+  --gold-soft:    rgba(184, 146, 58, 0.55);
+  --sage:         #6b7d5c;
+  --dusk:         #2c3447;
+  --rule:         rgba(26, 20, 16, 0.12);
+  --rule-strong:  rgba(26, 20, 16, 0.22);
+
+  /* Geometry */
+  --reading-width: 680px;
+  --frame-width:   1200px;
+  --gutter:        clamp(1.25rem, 4vw, 3rem);
+
+  --shadow-sm: 0 1px 2px rgba(40, 28, 18, 0.05);
+  --shadow-card:
+    0 1px 2px rgba(40, 28, 18, 0.05),
+    0 12px 28px -14px rgba(40, 28, 18, 0.22),
+    0 30px 60px -30px rgba(40, 28, 18, 0.18);
+  --shadow-card-hover:
+    0 2px 4px rgba(40, 28, 18, 0.06),
+    0 22px 40px -16px rgba(40, 28, 18, 0.32),
+    0 50px 80px -36px rgba(40, 28, 18, 0.28);
+}
+
+/* ---------- Reset / base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  scroll-behavior: smooth;
+  /* Kill the grey/blue tap flash on iOS/Android over full-bleed card buttons */
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 720px at 10% -10%, rgba(184, 146, 58, 0.06), transparent 60%),
+    radial-gradient(900px 600px at 110% 10%, rgba(184, 85, 46, 0.05), transparent 65%),
+    radial-gradient(800px 800px at 50% 120%, rgba(44, 52, 71, 0.05), transparent 70%),
+    var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Subtle paper grain — pure CSS noise via layered radial gradients */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(rgba(26, 20, 16, 0.025) 1px, transparent 1px),
+    radial-gradient(rgba(26, 20, 16, 0.018) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 2px;
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+}
+
+/* Gentle page vignette — darkens the extreme edges so the warm paper feels
+   lit from within, like a gallery wall. Kept very soft; multiply-blended. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(140% 110% at 50% 42%, transparent 62%, rgba(40, 28, 18, 0.07) 100%);
+  mix-blend-mode: multiply;
+}
+/* On the night scene the vignette deepens the blue toward the corners */
+body[data-scene="cosmos"]::after {
+  background:
+    radial-gradient(140% 120% at 50% 38%, transparent 55%, rgba(10, 14, 26, 0.45) 100%);
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100dvh - 6rem);
+  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter) clamp(2rem, 5vw, 4rem);
+  /* Respect notch / rounded-corner safe areas (viewport-fit=cover) */
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+/* Programmatic focus lands on #app / headings (tabindex="-1") after each
+   navigation — that's a "you are here" cue for screen readers, not a control,
+   so suppress the visible focus ring there. Real controls keep their ring. */
+[tabindex="-1"]:focus,
+[tabindex="-1"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* ---------- Accessibility helpers ---------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.6rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Decorative elements ---------- */
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  color: var(--gold);
+  margin: 1.4rem auto;
+  width: 100%;
+  max-width: 360px;
+}
+
+.ornament .rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+}
+
+.ornament .diamond {
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  background: var(--gold);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.ornament .glyph {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--gold);
+  opacity: 0.85;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.ornament.is-large {
+  max-width: 460px;
+  margin: 2.4rem auto;
+}
+.ornament.is-large .glyph { font-size: 1.6rem; }
+
+/* ---------- Site Footer ---------- */
+
+.site-footer {
+  position: relative;
+  z-index: 1;
+  padding: 2rem var(--gutter) calc(2.4rem + env(safe-area-inset-bottom, 0));
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.site-footer .site-mark {
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.site-footer .site-dot {
+  margin: 0 0.6rem;
+  color: var(--gold);
+}
+
+/* ============================================================
+   HOME SCREEN
+   ============================================================ */
+
+.home {
+  max-width: var(--frame-width);
+  margin: 0 auto;
+}
+
+.home-masthead {
+  text-align: center;
+  padding: clamp(2.5rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4rem);
+}
+
+.home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.3rem;
+  color: var(--ink-mute);
+}
+/* Flanking hairline ticks turn the deck line into a printed rubric */
+.home-eyebrow::before,
+.home-eyebrow::after {
+  content: "";
+  width: clamp(1.4rem, 5vw, 2.8rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft));
+}
+.home-eyebrow::after {
+  background: linear-gradient(90deg, var(--gold-soft), transparent);
+}
+
+.home-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-hero);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin: 0 auto;
+  max-width: 14ch;
+  text-wrap: balance;
+}
+
+.home-title .italic {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent-deep);
+}
+
+.home-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  color: var(--ink-mute);
+  margin: 1.4rem auto 0;
+  max-width: 36ch;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+/* ---------- Category Grid ---------- */
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 600px) {
+  .cat-grid { grid-template-columns: 1fr; gap: 0.9rem; }
+}
+
+.cat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  padding: 1.6rem 1.5rem 1.4rem;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 rgba(255, 252, 245, 0.45);
+}
+
+.cat-card::after {
+  /* thin double-rule inside border */
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(26, 20, 16, 0.06);
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+.cat-card::before {
+  /* left accent tab */
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--tint, var(--accent));
+  opacity: 0.85;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--gold-soft);
+  }
+
+  .cat-card:hover .cat-name { color: var(--accent-deep); }
+  .cat-card:hover .cat-glyph { color: var(--tint, var(--accent)); opacity: 1; transform: rotate(-6deg) scale(1.08); }
+}
+
+.cat-card .cat-glyph {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.3rem;
+  font-size: 1.6rem;
+  color: var(--tint, var(--ink-mute));
+  opacity: 0.55;
+  font-family: var(--font-display);
+  line-height: 1;
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base), color var(--dur-base);
+}
+
+.cat-card .cat-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 0.6rem;
+}
+
+.cat-card .cat-name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+  overflow-wrap: break-word;
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.cat-card .cat-blurb {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--ink-mute);
+  line-height: 1.35;
+  margin: 0.8rem 0 0;
+  text-wrap: balance;
+}
+
+.cat-card .cat-meta {
+  margin-top: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.cat-card .cat-meta .arrow {
+  color: var(--tint, var(--accent));
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.cat-card:hover .cat-meta .arrow { transform: translateX(4px); }
+
+/* ---------- Surprise tile (spans 2, night-inverted) ---------- */
+
+.cat-card.surprise {
+  /* span 1 so 15 categories + Surprise = 16 fills the 4-col grid with no
+     ragged orphan row; the dusk styling still makes it stand out */
+  background: var(--dusk);
+  color: var(--paper);
+  border-color: rgba(244, 237, 224, 0.08);
+  /* a faint moonlit top edge instead of the warm paper highlight */
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 rgba(244, 237, 224, 0.10);
+}
+
+.cat-card.surprise::after {
+  border-color: rgba(244, 237, 224, 0.08);
+}
+.cat-card.surprise::before {
+  background: var(--gold);
+}
+
+.cat-card.surprise .cat-eyebrow { color: rgba(244, 237, 224, 0.6); }
+.cat-card.surprise .cat-name    { color: var(--paper); font-style: italic; font-size: 2rem; }
+.cat-card.surprise .cat-blurb   { color: rgba(244, 237, 224, 0.72); font-size: 1.1rem; }
+.cat-card.surprise .cat-meta    { color: rgba(244, 237, 224, 0.6); }
+.cat-card.surprise .cat-meta .arrow { color: var(--gold); }
+.cat-card.surprise .cat-glyph   { color: var(--gold); opacity: 0.85; font-size: 2rem; }
+
+.cat-card.surprise:hover { border-color: var(--gold); }
+.cat-card.surprise:hover .cat-name { color: var(--paper); }
+
+@media (max-width: 600px) {
+  .cat-card.surprise { grid-column: span 1; }
+  .cat-card.surprise .cat-name { font-size: 2rem; }
+}
+
+/* Notice bar for missing data files */
+.notice {
+  margin: 2rem auto 0;
+  max-width: var(--frame-width);
+  padding: 0.85rem 1.1rem;
+  background: rgba(184, 146, 58, 0.08);
+  border: 1px solid var(--gold-soft);
+  border-radius: 3px;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ---------- Lesson of the Day (home feature) ---------- */
+
+.lesson-of-day {
+  max-width: var(--frame-width);
+  margin: 2.4rem auto 0;
+}
+
+.lod-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(120px, 16vw, 180px) 1fr;
+  align-items: stretch;
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  width: 100%;
+  padding: clamp(1.6rem, 3.5vw, 2.6rem) clamp(1.6rem, 3.5vw, 2.8rem);
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(184, 146, 58, 0.13), transparent 58%),
+    radial-gradient(90% 120% at 100% 100%, rgba(184, 85, 46, 0.05), transparent 60%),
+    var(--paper-warm, var(--paper-deep));
+  border: 1px solid var(--gold-soft);
+  border-left: 3px solid var(--tint, var(--gold));
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+  overflow: hidden;
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 rgba(255, 252, 245, 0.5);
+  transition: transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
+}
+
+.lod-card::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(184, 146, 58, 0.20);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lod-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--tint, var(--gold));
+    box-shadow:
+      var(--shadow-card-hover, 0 14px 40px rgba(26, 20, 16, 0.16)),
+      inset 0 1px 0 rgba(255, 252, 245, 0.5);
+  }
+}
+.lod-card:active { transform: translateY(-2px) scale(0.995); }
+
+/* Left medallion: orbit rings + topic glyph */
+.lod-aside {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tint, var(--gold));
+  min-height: 120px;
+}
+/* A soft gilt halo behind the glyph reads as a struck medallion, echoing the
+   completion screen's lit centre — visual rhyme between start and finish. */
+.lod-aside::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: clamp(78px, 11vw, 118px);
+  height: clamp(78px, 11vw, 118px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184, 146, 58, 0.16), transparent 70%);
+  pointer-events: none;
+}
+
+.lod-orbit {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: clamp(108px, 15vw, 160px);
+  height: clamp(108px, 15vw, 160px);
+  opacity: 0.9;
+}
+
+.lod-orbit-dot {
+  transform-origin: 60px 60px;
+  animation: lod-orbit-spin 14s linear infinite;
+}
+
+@keyframes lod-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+.lod-glyph {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  line-height: 1;
+  color: var(--tint, var(--accent));
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lod-card:hover .lod-glyph { transform: rotate(-8deg) scale(1.08); }
+}
+
+.lod-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.lod-eyebrow {
+  color: var(--accent-deep);
+  margin-bottom: 0.5rem;
+}
+
+.lod-cat {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 0.35rem;
+}
+
+.lod-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.lod-card:hover .lod-title { color: var(--accent-deep); }
+
+.lod-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+  color: var(--ink-soft);
+  margin: 0.6rem 0 1rem;
+  line-height: 1.4;
+  max-width: 46ch;
+  text-wrap: balance;
+}
+
+.lod-cta {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  font-family: var(--font-ui);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: var(--accent-deep);
+}
+
+.lod-cta-label { font-weight: 600; }
+
+.lod-cta .arr {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lod-card:hover .lod-cta .arr { transform: translateX(5px); }
+}
+
+.lod-cta-meta {
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+}
+
+.lod-cta-meta::before {
+  content: "·";
+  margin-right: 0.55rem;
+  color: var(--rule);
+}
+
+@media (max-width: 600px) {
+  .lod-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+    padding: 1.6rem 1.3rem;
+  }
+  .lod-aside { min-height: 96px; }
+  .lod-main { align-items: center; }
+  .lod-tagline { margin-left: auto; margin-right: auto; }
+  .lod-cta { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lod-orbit-dot { animation: none; }
+}
+
+/* ============================================================
+   CATEGORY SCREEN (sub-grid of topics)
+   ============================================================ */
+
+.category-view {
+  max-width: var(--frame-width);
+  margin: 0 auto;
+}
+
+.cat-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(2rem, 5vw, 4rem) 0 1.5rem;
+}
+
+.cat-head .crumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 1.5rem;
+}
+.cat-head .crumbs button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.5rem 0.4rem;
+  margin: -0.5rem -0.4rem;   /* keep visual position; expand only the hit area */
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--ink-mute);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  touch-action: manipulation;
+}
+.cat-head .crumbs button:hover { color: var(--accent-deep); }
+.cat-head .crumbs button:active { color: var(--accent); }
+.cat-head .crumbs .sep { color: var(--gold); }
+
+.cat-head .cat-head-glyph {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--tint, var(--accent));
+  margin-bottom: 0.6rem;
+  line-height: 1;
+}
+
+.cat-head h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -0.018em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.cat-head .cat-head-blurb {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--ink-mute);
+  margin-top: 0.9rem;
+  max-width: 42ch;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+.cat-head .cat-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Topic Grid ---------- */
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 900px) { .topic-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .topic-grid { grid-template-columns: 1fr; } }
+
+.topic-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 240px;
+  padding: 1.8rem 1.7rem 1.5rem;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+  overflow: hidden;
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 rgba(255, 252, 245, 0.45);
+}
+
+.topic-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--tint, var(--accent));
+}
+
+.topic-card::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(26, 20, 16, 0.05);
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .topic-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--gold-soft);
+  }
+  .topic-card:hover .topic-title { color: var(--accent-deep); }
+}
+
+.topic-card .topic-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 0.7rem;
+}
+
+.topic-card .topic-glyph {
+  position: absolute;
+  top: 1.3rem;
+  right: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--tint, var(--ink-mute));
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.topic-card .topic-title {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  margin: 0;
+  color: var(--ink);
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.topic-card .topic-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  margin: 0.8rem 0 0;
+  text-wrap: balance;
+}
+
+.topic-card .topic-meta {
+  margin-top: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.topic-card .topic-meta .arrow {
+  color: var(--tint, var(--accent));
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.topic-card:hover .topic-meta .arrow { transform: translateX(4px); }
+
+.topic-card .topic-meta .meta-time { color: var(--ink-soft); }
+
+/* Topic glyph comes alive on hover */
+.topic-card .topic-glyph {
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base), color var(--dur-base);
+}
+@media (hover: hover) and (pointer: fine) {
+  .topic-card:hover .topic-glyph {
+    color: var(--tint, var(--accent));
+    opacity: 0.95;
+    transform: rotate(-8deg) scale(1.12);
+  }
+}
+
+/* Touch feedback: hover/tilt never fire on touch devices, so give a press
+   state so a tapped card visibly responds before the transition begins. */
+.cat-card, .topic-card { touch-action: manipulation; }
+.cat-card:active, .topic-card:active {
+  transform: translateY(-2px) scale(0.992);
+  box-shadow: var(--shadow-card-hover);
+}
+.cat-card.surprise:active { transform: translateY(-2px) scale(0.992); }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  max-width: 540px;
+  margin: 2rem auto;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink-mute);
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   READER SCREEN
+   ============================================================ */
+
+.reader {
+  max-width: var(--reading-width);
+  margin: 0 auto;
+  padding: 1rem 0 2rem;
+}
+
+/* --- Scroll-progress hairline (thin top bar, decorative) --- */
+
+.scroll-hairline {
+  position: fixed;
+  top: env(safe-area-inset-top, 0); left: 0; right: 0;
+  height: 2px;
+  z-index: 6;             /* above page-transition (5), below modals */
+  background: transparent;
+  pointer-events: none;
+}
+.scroll-hairline-fill {
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(var(--scroll-progress, 0));
+  background: linear-gradient(90deg, var(--gold), var(--tint, var(--accent)));
+  transition: transform 80ms linear;
+}
+body[data-scene="cosmos"] .scroll-hairline-fill {
+  background: linear-gradient(90deg, var(--gold), var(--paper));
+}
+
+/* --- Top bar: crumbs + back + progress rail --- */
+
+.reader-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.4rem;
+  gap: 1rem;
+}
+
+.reader-topbar .back-btn {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.6rem 0.6rem;
+  margin-left: -0.6rem;       /* keep text flush-left; grow the hit area */
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  touch-action: manipulation;
+}
+.reader-topbar .back-btn:hover { color: var(--accent-deep); }
+.reader-topbar .back-btn:active { color: var(--accent); }
+.reader-topbar .back-btn .arr { color: var(--gold); font-size: 1rem; }
+
+/* --- Progress thread (connected rail) --- */
+
+.progress-rail {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.progress-thread {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 120px;
+  max-width: 260px;
+  height: 16px;
+}
+
+/* The connecting line behind the dots */
+.thread-track {
+  position: absolute;
+  left: 4px; right: 4px;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--rule-strong);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Filled portion — width driven by --thread-progress (0..1) */
+.thread-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: calc(var(--thread-progress, 0) * 100%);
+  background: linear-gradient(90deg, var(--gold), var(--tint, var(--accent)));
+  border-radius: 2px;
+  transform-origin: left center;
+  animation: thread-fill-kf 560ms var(--ease-quill) both;
+}
+
+.rail-dot {
+  position: relative;
+  z-index: 1;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule-strong);
+  flex-shrink: 0;
+  transition: background var(--dur-base) var(--ease-out),
+              border-color var(--dur-base),
+              transform var(--dur-base);
+}
+.rail-dot .rail-dot-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity var(--dur-base), transform var(--dur-base);
+}
+.rail-dot.is-done {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.rail-dot.is-current {
+  background: var(--tint, var(--accent));
+  border-color: var(--tint, var(--accent));
+  transform: scale(1.3);
+}
+.rail-dot.is-current .rail-dot-inner {
+  opacity: 1;
+  transform: scale(1);
+  background: var(--tint, var(--accent));
+  animation: dot-halo-kf 2.6s var(--ease-soft) infinite;
+}
+
+.rail-depth-label {
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rail-depth-label .rail-depth-num { color: var(--accent-deep); font-weight: 600; }
+
+/* --- Header block --- */
+
+.reader-header {
+  margin-bottom: 2.2rem;
+}
+
+.reader-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.9rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.reader-eyebrow .dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: inline-block;
+}
+
+.reader-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.reader-readtime {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--ink-mute);
+}
+.reader-readtime::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: inline-block;
+}
+
+.reader-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.18rem 0.55rem;
+  /* Tint the border for category identity, but keep the small text at a
+     guaranteed-readable ink (some tints — e.g. gold, sage — fail AA as text). */
+  border: 1px solid color-mix(in srgb, var(--tint, var(--accent)) 65%, var(--rule-strong));
+  color: var(--ink-soft);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.reader-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-topic);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+  margin: 0.4rem 0 0.4rem;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.reader-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ink-mute);
+  line-height: 1.4;
+  margin: 0.4rem 0 0;
+  max-width: 38ch;
+  text-wrap: balance;
+}
+
+/* Old-style figures in the running prose are lovely, but the depth counter and
+   read-time in the header should stay aligned lining numerals. */
+.reader-eyebrow { font-feature-settings: "tnum" 1, "lnum" 1; }
+
+.reader-level-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: -0.012em;
+  line-height: 1.15;
+  margin: 1.6rem 0 0.2rem;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.reader-divider {
+  margin: 1.6rem auto 2rem;
+  max-width: 280px;
+}
+
+/* --- Body --- */
+
+.reader-body {
+  font-family: var(--font-body);
+  font-size: 1.21rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.reader-body .prose-reveal:first-of-type p:first-of-type::first-letter,
+.reader-body > p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.6em;
+  font-weight: 600;
+  float: left;
+  line-height: 0.82;
+  padding: 0.06em 0.12em 0 0;
+  margin-right: 0.02em;
+  color: var(--accent-deep);
+  font-style: italic;
+  /* small-caps on :first-line would otherwise shrink the cap — keep it grand */
+  font-variant-caps: normal;
+  text-shadow: 0 1px 0 rgba(255, 252, 245, 0.4);
+}
+
+/* The opening paragraph sits a hair larger and deeper in colour — the
+   "lede" of a printed essay — so the page has an entry point before the
+   measure settles to its even reading rhythm. */
+.reader-body .prose-reveal:first-of-type p:first-of-type,
+.reader-body > p:first-of-type {
+  font-size: 1.04em;
+  color: var(--ink);
+}
+
+.reader-body p { margin: 0 0 1.15em; }
+
+/* Optical: the last paragraph of a level shouldn't crowd the finis ornament. */
+.reader-body p:last-of-type { margin-bottom: 1.5em; }
+
+/* --- Continue button --- */
+
+.continue-row {
+  margin: 3.2rem 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.btn-continue {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 1.1rem 3.5rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: min(260px, 100%);
+  max-width: 100%;
+  justify-content: center;
+  touch-action: manipulation;
+  box-shadow:
+    0 1px 2px rgba(26, 20, 16, 0.15),
+    0 14px 28px -14px rgba(26, 20, 16, 0.45);
+  transition: background var(--dur-base) var(--ease-out), transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-base);
+}
+
+.btn-continue:hover {
+  background: var(--accent-deep);
+  color: var(--paper);
+}
+
+.btn-continue:active { transform: translateY(1px); }
+
+.btn-continue .arr {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  opacity: 0.85;
+}
+
+.keyhint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.keyhint kbd {
+  font-family: var(--font-mono);
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  box-shadow: 0 1px 0 rgba(26, 20, 16, 0.08);
+}
+
+/* Secondary smaller button */
+
+.btn-ghost {
+  appearance: none;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  transition: border-color var(--dur-base), color var(--dur-base), background var(--dur-base), transform var(--dur-fast);
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--accent-deep);
+  background: rgba(184, 146, 58, 0.06);
+}
+.btn-ghost:active { transform: scale(0.97); }
+
+/* ============================================================
+   COMPLETION SCREEN
+   ============================================================ */
+
+.complete {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  padding: clamp(3rem, 8vw, 6rem) 0 2rem;
+}
+
+.complete-ornament {
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  color: var(--gold);
+  margin-bottom: 1.6rem;
+  line-height: 1;
+}
+
+.complete-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--ink-mute);
+  margin-bottom: 1rem;
+}
+/* Flanking gold ticks echo the home masthead eyebrow — a closing rubric that
+   rhymes with the opening one, bookending the journey. */
+.complete-eyebrow::before,
+.complete-eyebrow::after {
+  content: "";
+  width: clamp(1.2rem, 4vw, 2.2rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft));
+}
+.complete-eyebrow::after {
+  background: linear-gradient(90deg, var(--gold-soft), transparent);
+}
+
+.complete h1 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  letter-spacing: -0.018em;
+  line-height: 1.04;
+  color: var(--ink);
+  margin: 0.4rem 0 1rem;
+  text-wrap: balance;
+}
+
+.complete p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--ink-mute);
+  margin: 0 auto 2rem;
+  max-width: 38ch;
+  text-wrap: balance;
+}
+
+.complete .actions {
+  display: flex;
+  gap: 0.9rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.6rem;
+}
+
+.complete .actions .btn-solid {
+  appearance: none;
+  cursor: pointer;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.8rem;
+  border-radius: 999px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  transition: background var(--dur-base), transform var(--dur-fast);
+}
+.complete .actions .btn-solid:hover { background: var(--accent-deep); }
+.complete .actions .btn-solid:active { transform: scale(0.97); }
+
+.complete .actions .btn-ghost-solid {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+}
+.complete .actions .btn-ghost-solid:hover {
+  background: rgba(184, 146, 58, 0.06);
+  border-color: var(--gold);
+  color: var(--accent-deep);
+}
+
+/* ============================================================
+   AMBIENT CANVAS + PAGE TRANSITION OVERLAY
+   ============================================================ */
+
+#ambient {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;      /* dvh avoids the iOS toolbar-collapse jump that 100vh causes */
+  z-index: 0;          /* behind body::before (which is also 0), but pointer-events none */
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+}
+
+/* On the dusk-themed cosmos scene, blend the constellation in luminance mode */
+body[data-scene="cosmos"] #ambient {
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+#page-transition {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+#page-transition::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    color-mix(in srgb, var(--tint, var(--gold)) 22%, transparent) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* ============================================================
+   HERO ORRERY (homepage masthead backdrop)
+   ============================================================ */
+
+.home-masthead {
+  position: relative;
+  overflow: visible;
+}
+
+.home-masthead .masthead-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-orrery {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(520px, 90vw, 820px);
+  height: clamp(520px, 90vw, 820px);
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  opacity: 0.22;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+.hero-orrery img,
+.hero-orrery svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: inherit;
+}
+
+/* On dusk scene the orrery glows gold against the night */
+body[data-scene="cosmos"] .hero-orrery {
+  opacity: 0.28;
+  color: var(--gold);
+}
+
+@media (max-width: 700px) {
+  .hero-orrery { opacity: 0.16; }
+}
+
+/* ============================================================
+   CATEGORY CARD ILLUSTRATIONS
+   ============================================================ */
+
+.cat-card {
+  /* Make room for the illustration above the text block */
+  min-height: 320px;
+  padding-top: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.cat-illus {
+  position: relative;
+  width: calc(100% + 3rem);
+  margin: 0 -1.5rem 1rem;
+  height: 130px;
+  padding: 0.6rem 1.2rem 0;
+  overflow: hidden;
+  color: var(--tint, var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(180deg, rgba(184, 146, 58, 0.06), transparent 70%);
+  border-bottom: 1px solid var(--rule);
+}
+/* Gilt hairline riding the bottom of the illustration shelf — warms the seam
+   between picture and caption. */
+.cat-illus::after {
+  content: "";
+  position: absolute;
+  left: 1.2rem; right: 1.2rem; bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  opacity: 0.6;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.cat-illus img,
+.cat-illus svg {
+  width: 92%;
+  max-width: 280px;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  color: var(--tint, var(--accent));
+  transition:
+    transform 600ms var(--ease-quill),
+    filter 400ms var(--ease-out),
+    opacity 600ms var(--ease-quill);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cat-card:hover .cat-illus img,
+  .cat-card:hover .cat-illus svg {
+    transform: scale(1.04) translateY(-2px);
+    filter: brightness(1.06);
+  }
+  .cat-card:hover .cat-illus::after { opacity: 1; }
+}
+
+.cat-card .cat-body {
+  padding: 0 0 0.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;   /* let long titles wrap instead of forcing card overflow */
+}
+
+/* Re-anchor the glyph above the illustration row */
+.cat-card .cat-glyph {
+  top: 0.85rem;
+  right: 0.95rem;
+  z-index: 2;
+}
+
+/* Hover bloom: gold accent rule glows, paths brighten */
+@media (hover: hover) and (pointer: fine) {
+  .cat-card:hover {
+    transform: translateY(-6px);
+  }
+  .cat-card:hover::before {
+    box-shadow: 0 0 12px var(--gold-soft);
+    opacity: 1;
+  }
+  .cat-card:hover .cat-illus {
+    background:
+      linear-gradient(180deg, rgba(184, 146, 58, 0.12), transparent 70%);
+  }
+}
+
+/* ---------- Pointer-tracked tilt + accent bloom (desktop fine-pointer) ---------- */
+
+.card-tilt {
+  /* default values so the calc() never breaks before JS sets them */
+  --mx: 0.5;
+  --my: 0.5;
+  --tilt-active: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Pointer bloom: a soft radial highlight that follows the cursor.
+   Driven via background-image so it composites over the solid background-color. */
+.card-tilt {
+  background-image:
+    radial-gradient(
+      260px circle at calc(var(--mx) * 100%) calc(var(--my) * 100%),
+      rgba(184, 146, 58, calc(0.10 * var(--tilt-active))),
+      transparent 60%
+    );
+  background-repeat: no-repeat;
+}
+
+/* Surprise tile uses a background shorthand (image); opt it out of the bloom
+   to avoid double-painting. It gets its life from the dice glyph (C8) instead. */
+.cat-card.surprise.card-tilt { background-image: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .card-tilt {
+    transition: transform var(--dur-base) var(--ease-out),
+                box-shadow var(--dur-base) var(--ease-out),
+                border-color var(--dur-base) var(--ease-out);
+  }
+  .card-tilt:hover {
+    transform:
+      translateY(-6px)
+      perspective(900px)
+      rotateX(calc((var(--my) - 0.5) * -5deg))
+      rotateY(calc((var(--mx) - 0.5) * 5deg));
+  }
+}
+
+/* ---------- Surprise tile (night dusk + stars) ---------- */
+
+.cat-card.surprise {
+  background:
+    radial-gradient(140% 80% at 80% -10%,
+      rgba(184, 146, 58, 0.32) 0%,
+      rgba(184, 146, 58, 0.06) 22%,
+      transparent 50%),
+    radial-gradient(70% 50% at 20% 110%,
+      rgba(244, 237, 224, 0.05) 0%,
+      transparent 60%),
+    var(--dusk);
+  overflow: hidden;
+}
+
+.cat-card.surprise .surprise-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--paper);
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* On surprise, suppress the illus shelf (we use stars instead) */
+.cat-card.surprise .cat-illus { display: none; }
+.cat-card.surprise { grid-template-rows: 1fr auto; }
+
+/* ---------- Mobile: simpler card layout ---------- */
+
+@media (max-width: 600px) {
+  .cat-card { min-height: 280px; }
+  .cat-illus { height: 110px; }
+}
+
+/* ============================================================
+   CATEGORY HEAD ILLUSTRATION
+   ============================================================ */
+
+.cat-head-illus {
+  width: clamp(220px, 36vw, 360px);
+  height: clamp(150px, 24vw, 220px);
+  color: var(--tint, var(--accent));
+  margin: 0.4rem auto 0.6rem;
+  opacity: 0.85;
+}
+.cat-head-illus img,
+.cat-head-illus svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  color: var(--tint, var(--accent));
+}
+
+/* ============================================================
+   READER DECORATIONS
+   ============================================================ */
+
+.reader-body {
+  position: relative;
+}
+
+.drop-ornament {
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: var(--gold);
+  margin: 0 0 0.6rem;
+  opacity: 0.55;
+}
+
+.finis-ornament {
+  display: block;
+  width: 64px;
+  height: 16px;
+  color: var(--gold);
+  margin: 2rem auto 0;
+  opacity: 0.7;
+}
+
+.drop-ornament { animation: ornament-glow 7s var(--ease-soft) infinite; }
+
+/* ============================================================
+   COMPLETION SCREEN RINGS
+   ============================================================ */
+
+.complete-rings {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1.4rem;
+}
+
+/* A soft gold halo sits behind the glyph, so the centre reads as a lit medallion
+   rather than a bare character among empty rings. */
+.complete-rings::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 150px; height: 150px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184, 146, 58, 0.18), transparent 68%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.complete-rings .complete-ornament {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-size: 4rem;
+  z-index: 2;
+}
+
+/* ============================================================
+   PER-SCENE BODY BACKGROUNDS
+   ============================================================ */
+
+body {
+  transition: background-color 1200ms var(--ease-quill);
+}
+
+body[data-scene="cosmos"] {
+  background:
+    radial-gradient(1400px 800px at 50% -20%, rgba(184, 146, 58, 0.08), transparent 65%),
+    radial-gradient(900px 600px at 110% 80%, rgba(184, 85, 46, 0.05), transparent 65%),
+    var(--dusk) !important;
+  color: var(--paper);
+}
+body[data-scene="cosmos"] .site-footer { color: rgba(244, 237, 224, 0.6); }
+body[data-scene="cosmos"] .site-footer .site-mark { color: rgba(244, 237, 224, 0.78); }
+body[data-scene="cosmos"] .reader-body { color: rgba(244, 237, 224, 0.88); }
+body[data-scene="cosmos"] .reader-title,
+body[data-scene="cosmos"] .reader-level-title,
+body[data-scene="cosmos"] .cat-head h1,
+body[data-scene="cosmos"] .complete h1 { color: var(--paper); }
+body[data-scene="cosmos"] .reader-tagline,
+body[data-scene="cosmos"] .cat-head-blurb,
+body[data-scene="cosmos"] .complete p { color: rgba(244, 237, 224, 0.65); }
+body[data-scene="cosmos"] .reader-body .prose-reveal:first-of-type p:first-of-type::first-letter,
+body[data-scene="cosmos"] .reader-body > p:first-of-type::first-letter {
+  color: var(--gold);
+  text-shadow: 0 0 18px rgba(184, 146, 58, 0.35);
+}
+/* On the night scene the small-caps opening line reads as warm paper, not ink */
+body[data-scene="cosmos"] .reader-body .prose-reveal:first-of-type p:first-of-type:first-line,
+body[data-scene="cosmos"] .reader-body > p:first-of-type:first-line { color: var(--paper); }
+/* The lede paragraph also flips to paper on the dark scene (the light-theme
+   rule above sets it to ink, which would vanish on dusk). */
+body[data-scene="cosmos"] .reader-body .prose-reveal:first-of-type p:first-of-type,
+body[data-scene="cosmos"] .reader-body > p:first-of-type { color: var(--paper); }
+body[data-scene="cosmos"] .crumbs button,
+body[data-scene="cosmos"] .crumbs span { color: rgba(244, 237, 224, 0.7); }
+body[data-scene="cosmos"] .back-btn { color: rgba(244, 237, 224, 0.7); }
+body[data-scene="cosmos"] .keyhint { color: rgba(244, 237, 224, 0.7); }
+body[data-scene="cosmos"] .keyhint kbd {
+  background: rgba(244, 237, 224, 0.08);
+  border-color: rgba(244, 237, 224, 0.18);
+  color: var(--paper);
+}
+body[data-scene="cosmos"] .rail-dot { border-color: rgba(244, 237, 224, 0.25); }
+body[data-scene="cosmos"] .reader-cat-badge {
+  color: var(--gold);
+  border-color: var(--gold-soft);
+}
+body[data-scene="cosmos"] .reader-readtime,
+body[data-scene="cosmos"] .reader-eyebrow,
+body[data-scene="cosmos"] .reader-meta { color: rgba(244, 237, 224, 0.7); }
+body[data-scene="cosmos"] .meta-time { color: rgba(244, 237, 224, 0.82); }
+body[data-scene="cosmos"] .pullquote { color: var(--gold); }
+body[data-scene="cosmos"] .prose code {
+  background: rgba(184, 146, 58, 0.12);
+  color: var(--gold);
+  border-color: rgba(184, 146, 58, 0.22);
+}
+body[data-scene="cosmos"] .prose pre {
+  background: rgba(244, 237, 224, 0.04);
+  color: var(--paper);
+  border-color: rgba(244, 237, 224, 0.1);
+}
+body[data-scene="cosmos"] .btn-continue {
+  background: var(--gold);
+  color: var(--dusk);
+}
+body[data-scene="cosmos"] .btn-continue:hover {
+  background: var(--paper);
+  color: var(--dusk);
+}
+body[data-scene="cosmos"] ::selection {
+  background: rgba(184, 146, 58, 0.35);
+  color: var(--paper);
+}
+
+body[data-scene="nature"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(107, 125, 92, 0.10), transparent 65%),
+    radial-gradient(900px 600px at 110% 110%, rgba(184, 146, 58, 0.06), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="philosophy"] {
+  background:
+    radial-gradient(1400px 800px at 50% -20%, rgba(138, 58, 26, 0.06), transparent 65%),
+    radial-gradient(900px 600px at 110% 80%, rgba(184, 146, 58, 0.05), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="history"] {
+  background:
+    radial-gradient(1400px 800px at 70% -20%, rgba(184, 146, 58, 0.10), transparent 60%),
+    var(--paper);
+}
+
+body[data-scene="money"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(125, 98, 51, 0.08), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="body"] {
+  background:
+    radial-gradient(1400px 800px at 50% -20%, rgba(168, 90, 74, 0.08), transparent 65%),
+    radial-gradient(900px 600px at 110% 110%, rgba(184, 146, 58, 0.05), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="mind"] {
+  background:
+    radial-gradient(1400px 800px at 50% -20%, rgba(107, 74, 125, 0.07), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="craft"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(176, 107, 58, 0.08), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="home"] {
+  background:
+    radial-gradient(1400px 800px at 50% -20%, rgba(125, 90, 58, 0.07), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="digital"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(58, 90, 125, 0.09), transparent 65%),
+    radial-gradient(900px 600px at 110% 110%, rgba(58, 90, 125, 0.05), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="music"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(120, 86, 140, 0.08), transparent 65%),
+    radial-gradient(900px 600px at 110% 110%, rgba(184, 146, 58, 0.05), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="science"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(201, 123, 74, 0.09), transparent 65%),
+    radial-gradient(900px 600px at 110% 110%, rgba(184, 146, 58, 0.05), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="mathematics"] {
+  background:
+    radial-gradient(1400px 800px at 55% -20%, rgba(107, 125, 92, 0.09), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="technology"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(44, 52, 71, 0.08), transparent 65%),
+    radial-gradient(900px 600px at 110% 110%, rgba(61, 50, 42, 0.05), transparent 65%),
+    var(--paper);
+}
+
+body[data-scene="art"] {
+  background:
+    radial-gradient(1400px 800px at 30% -20%, rgba(162, 94, 58, 0.09), transparent 65%),
+    radial-gradient(900px 600px at 110% 110%, rgba(184, 146, 58, 0.05), transparent 65%),
+    var(--paper);
+}
+
+/* ============================================================
+   FOCUS RING (beautiful gold)
+   ============================================================ */
+
+:focus-visible {
+  /* accent-deep gives ~6.7:1 vs paper (gold was only ~2.5:1 — failed WCAG 1.4.11);
+     the gold glow stays as a decorative second ring */
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 5px rgba(184, 146, 58, 0.20);
+}
+
+/* On the dark cosmos scene, gold (4.3:1 on dusk) reads better than sienna */
+body[data-scene="cosmos"] :focus-visible {
+  outline-color: var(--gold);
+  box-shadow: 0 0 0 5px rgba(244, 237, 224, 0.18);
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR (subtle, warm tones)
+   ============================================================ */
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(184, 146, 58, 0.35) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(184, 146, 58, 0.32);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 200ms;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(184, 146, 58, 0.55);
+  background-clip: padding-box;
+}
+
+body[data-scene="cosmos"] {
+  scrollbar-color: rgba(244, 237, 224, 0.22) transparent;
+}
+body[data-scene="cosmos"] ::-webkit-scrollbar-thumb {
+  background: rgba(244, 237, 224, 0.22);
+  background-clip: padding-box;
+}
+
+/* ============================================================
+   RESPONSIVE TUNING
+   Reader-side adjustments kick in at ≤600px (matching the grids) so the
+   421–600px band — large phones in portrait — is no longer a dead zone where
+   the topbar crowded and the Continue button overflowed.
+   ============================================================ */
+
+@media (max-width: 600px) {
+  /* Reader topbar: let it wrap, shrink the rail, drop the truncating label
+     (its full text is already carried by the progressbar's aria-valuetext). */
+  .reader-topbar { flex-wrap: wrap; row-gap: 0.5rem; margin-bottom: 1.8rem; }
+  .progress-rail { flex: 1; justify-content: flex-end; }
+  .progress-rail .rail-depth-label { display: none; }
+  .progress-thread { min-width: 96px; max-width: 180px; }
+
+  /* Continue button goes full-width so it never overruns the gutter */
+  .btn-continue { min-width: 0; width: 100%; padding: 1rem 1.4rem; }
+  .continue-row { gap: 0.6rem; }
+
+  /* Neutralize the pullquote's negative offsets that overflowed narrow screens */
+  .pullquote { margin-left: 0; padding-left: 0.9em; }
+  .pullquote::before { left: -0.05em; top: -0.15em; font-size: 1.8em; }
+
+  /* Slightly calmer reading measure on small screens */
+  .reader-body { font-size: 1.14rem; line-height: 1.78; }
+}
+
+@media (max-width: 420px) {
+  .home-masthead { padding: 2rem 0 1.4rem; }
+  .hero-orrery { width: 120vw; height: 120vw; opacity: 0.14; }
+  .cat-card { padding: 0 1.2rem 1.2rem; }
+  .cat-illus { width: calc(100% + 2.4rem); height: 100px; margin: 0 -1.2rem 0.8rem; padding: 0.4rem 0.8rem 0; }
+  .cat-card .cat-name { font-size: 1.7rem; }
+  .topic-card { min-height: 200px; padding: 1.4rem 1.3rem 1.2rem; }
+  .progress-thread { max-width: 140px; }
+  .complete-rings { width: 160px; height: 160px; }
+  .complete-rings .complete-ornament { font-size: 3rem; }
+  .reader-title { font-size: clamp(2rem, 9vw, 2.6rem); }
+}
+
+/* ============================================================
+   SELECTION (warm sienna)
+   ============================================================ */
+
+::selection {
+  background: rgba(184, 85, 46, 0.22);
+  color: var(--ink);
+}

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- golden spiral (approximated via arcs in fibonacci-ish squares) -->
+  <g class="draw-paths" opacity="0.9">
+    <rect x="100" y="60" width="200" height="124" stroke-dasharray="650 650" stroke-dashoffset="650"/>
+    <line x1="200" y1="60" x2="200" y2="184" stroke-dasharray="130 130" stroke-dashoffset="130"/>
+    <line x1="200" y1="108" x2="300" y2="108" stroke-dasharray="105 105" stroke-dashoffset="105"/>
+    <line x1="240" y1="108" x2="240" y2="184" stroke-dasharray="80 80" stroke-dashoffset="80"/>
+    <line x1="240" y1="148" x2="300" y2="148" stroke-dasharray="65 65" stroke-dashoffset="65"/>
+    <path d="M100 184 A124 124 0 0 1 224 60" stroke-dasharray="200 200" stroke-dashoffset="200"/>
+    <path d="M224 60 A76 76 0 0 1 300 136" stroke-dasharray="125 125" stroke-dashoffset="125"/>
+    <path d="M300 136 A48 48 0 0 1 252 184" stroke-dasharray="80 80" stroke-dashoffset="80"/>
+    <path d="M252 184 A28 28 0 0 1 224 156" stroke-dasharray="50 50" stroke-dashoffset="50"/>
+  </g>
+  <!-- infinity loop below -->
+  <g class="draw-paths" transform="translate(200 235)" opacity="0.85">
+    <path d="M-40 0 C-40 -22 -10 -22 0 0 C10 22 40 22 40 0 C40 -22 10 -22 0 0 C-10 22 -40 22 -40 0 Z" stroke-dasharray="260 260" stroke-dashoffset="260"/>
+  </g>
+  <!-- small tetrahedron upper left -->
+  <g class="draw-paths" transform="translate(48 78)" opacity="0.75" stroke-dasharray="200 200" stroke-dashoffset="200">
+    <path d="M0 30 L18 0 L36 30 Z"/>
+    <path d="M0 30 L18 18 L36 30"/>
+    <path d="M18 0 L18 18"/>
+  </g>
+  <!-- dot triangle upper right -->
+  <g fill="currentColor" stroke="none" opacity="0.7">
+    <circle cx="350" cy="50" r="2"/>
+    <circle cx="358" cy="62" r="2"/>
+    <circle cx="342" cy="62" r="2"/>
+  </g>
+</svg>

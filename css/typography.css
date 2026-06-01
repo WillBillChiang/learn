@@ -1,0 +1,300 @@
+/* ============================================================
+   Learn Something New — Typography
+   Display: Cormorant Garamond
+   Body:    Crimson Pro
+   UI:      Inter
+   Mono:    JetBrains Mono
+   ============================================================ */
+
+:root {
+  --font-display: 'Cormorant Garamond', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-body:    'Crimson Pro', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', 'Menlo', Consolas, monospace;
+
+  /* Modular scale, gently musical */
+  --fs-eyebrow: 0.72rem;
+  --fs-label:   0.82rem;
+  --fs-body:    1.21rem;   /* ~19.4px */
+  --fs-body-lg: 1.32rem;
+  --fs-h3:      1.55rem;
+  --fs-h2:      2.05rem;
+  --fs-h1:      3.6rem;
+  --fs-hero:    clamp(3.2rem, 8vw, 6.4rem);
+  --fs-topic:   clamp(2.4rem, 5.2vw, 4.2rem);
+
+  --lh-tight: 1.08;
+  --lh-snug:  1.28;
+  --lh-body:  1.85;
+
+  --tracking-loose:  0.18em;
+  --tracking-wide:   0.08em;
+  --tracking-normal: 0;
+  --tracking-tight:  -0.012em;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Discretionary + contextual ligatures and proper kerning everywhere */
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1;
+  font-kerning: normal;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+}
+
+/* ---------- Display family ---------- */
+
+.display,
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--lh-tight);
+}
+
+.t-display-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+  color: var(--ink);
+}
+
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+
+/* ---------- Body prose ---------- */
+
+.prose {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  /* Old-style (text) figures sit beautifully in serif body copy */
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "onum" 1, "pnum" 1;
+}
+
+.prose p {
+  margin: 0 0 1.15em;
+  text-wrap: pretty;
+  hanging-punctuation: first last;
+  /* Long technical terms / URLs must wrap, not overflow the narrow column */
+  overflow-wrap: anywhere;
+}
+.prose li { overflow-wrap: anywhere; }
+
+/* First paragraph after the drop-cap: a gentle raised-caps opening line, the
+   classic "lettrine + petites capitales" manuscript treatment. */
+.reader-body .prose-reveal:first-of-type p:first-of-type:first-line,
+.reader-body > p:first-of-type:first-line {
+  font-variant-caps: small-caps;
+  letter-spacing: 0.015em;
+  color: var(--ink);
+}
+
+.prose p + p {
+  text-indent: 0;
+}
+
+.prose em { font-style: italic; }
+.prose strong { font-weight: 600; color: var(--ink); }
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  font-style: italic;
+  margin: 2.2em 0 0.6em;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  position: relative;
+  padding-top: 0.5em;
+}
+/* A short gold rule above each subhead — a quiet section divider. */
+.prose h3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2em;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0.7;
+}
+
+.prose ul, .prose ol {
+  margin: 0 0 1.2em 1.4em;
+  padding: 0;
+}
+.prose li {
+  margin: 0 0 0.45em;
+}
+
+.prose blockquote {
+  margin: 1.7em 0;
+  padding: 0.35em 0 0.35em 1.3em;
+  border-left: 2px solid var(--gold);
+  font-style: italic;
+  color: var(--ink-soft);
+  /* Hang the quote into the gutter slightly for an inset, considered feel */
+  font-size: 1.04em;
+  line-height: 1.7;
+  /* a whisper of warmth so the inset reads as a set-apart aside, not just a rule */
+  background: linear-gradient(90deg, rgba(184, 146, 58, 0.05), transparent 70%);
+}
+.prose blockquote p:last-child { margin-bottom: 0; }
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: rgba(184, 85, 46, 0.07);
+  color: var(--accent-deep);
+  padding: 0.08em 0.38em;
+  border: 1px solid rgba(184, 85, 46, 0.10);
+  border-radius: 3px;
+  letter-spacing: 0;
+  hyphens: none;
+  font-variant-ligatures: none;
+  /* long inline snippets must still wrap inside the narrow column */
+  overflow-wrap: anywhere;
+}
+.prose pre code { border: 0; }
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  background:
+    linear-gradient(180deg, rgba(184, 146, 58, 0.04), transparent 36%),
+    rgba(26, 20, 16, 0.04);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--gold);
+  padding: 1.05em 1.2em;
+  margin: 1.5em 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;   /* don't trigger back-swipe nav while panning code */
+  line-height: 1.65;
+  color: var(--ink);
+  border-radius: 3px;
+  tab-size: 2;
+  -moz-tab-size: 2;
+  /* code is verbatim — never hyphenate or ligate operators */
+  hyphens: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+  box-shadow: inset 0 1px 0 rgba(255, 252, 245, 0.35);
+}
+
+.prose pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.prose a {
+  color: var(--accent-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(138, 58, 26, 0.4);
+}
+.prose a:hover { text-decoration-color: currentColor; }
+
+/* ---------- UI labels & small caps ---------- */
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--tracking-loose);
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.smallcaps {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-loose);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Tabular, lining numerals inside UI labels (counts, depths, dates) so figures
+   align and never collide with the wide tracking. */
+.eyebrow, .smallcaps, .label {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+}
+
+.numeric {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/* ---------- Pull quotes ---------- */
+
+.pullquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  line-height: 1.32;
+  color: var(--accent-deep);
+  letter-spacing: var(--tracking-tight);
+  margin: 2.4em 0 2.4em -0.4em;
+  padding-left: 0.4em;
+  text-wrap: balance;
+  position: relative;
+}
+
+.pullquote::before {
+  content: "\201C";
+  position: absolute;
+  left: -0.55em;
+  top: -0.25em;
+  font-size: 2.2em;
+  line-height: 1;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-style: italic;
+  opacity: 0.65;
+}
+
+/* A slim gold hairline closes the pull-quote — a printed-page flourish that
+   makes the aside feel set, not floating. */
+.pullquote::after {
+  content: "";
+  display: block;
+  width: 2.4em;
+  height: 1px;
+  margin: 0.7em 0 0;
+  background: linear-gradient(90deg, var(--gold-soft), transparent);
+}
+
+/* ---------- Reading-time / depth numerals: tabular figures ---------- */
+
+.reader-readtime { font-feature-settings: "tnum" 1, "lnum" 1; }
+.rail-depth-label .rail-depth-num { font-feature-settings: "tnum" 1, "lnum" 1; }

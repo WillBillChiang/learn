@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- palette (lower left) -->
+  <g class="draw-paths" transform="translate(60 140)" opacity="0.9" stroke-dasharray="420 420" stroke-dashoffset="420">
+    <path d="M0 60 C0 20 40 0 80 0 C130 0 160 28 160 60 C160 84 144 92 130 92 C118 92 116 100 122 110 C128 124 116 138 96 138 C44 138 0 110 0 60 Z"/>
+    <!-- thumb hole -->
+    <ellipse cx="40" cy="60" rx="10" ry="14"/>
+  </g>
+  <!-- paint dots on palette -->
+  <g stroke="none" opacity="0.7">
+    <circle cx="160" cy="170" r="6" fill="currentColor"/>
+    <circle cx="120" cy="158" r="5" fill="currentColor" opacity="0.55"/>
+    <circle cx="190" cy="200" r="5" fill="currentColor" opacity="0.75"/>
+    <circle cx="155" cy="220" r="6" fill="currentColor" opacity="0.5"/>
+  </g>
+  <!-- brush (diagonal, upper right) -->
+  <g class="draw-paths" opacity="0.95" stroke-dasharray="320 320" stroke-dashoffset="320">
+    <line x1="360" y1="40" x2="240" y2="160" stroke-width="2"/>
+    <!-- ferrule -->
+    <path d="M236 156 L218 174 L222 178 L240 160 Z"/>
+    <!-- bristles -->
+    <path d="M218 174 Q204 184 200 200 Q214 198 230 188 Z"/>
+  </g>
+  <!-- gestural strokes -->
+  <g class="draw-paths" opacity="0.7">
+    <path d="M280 250 Q310 220 350 240" stroke-dasharray="120 120" stroke-dashoffset="120" stroke-width="2"/>
+    <path d="M260 268 Q300 252 340 268" stroke-dasharray="120 120" stroke-dashoffset="120" stroke-width="1.4" opacity="0.7"/>
+  </g>
+  <!-- small star -->
+  <g opacity="0.65">
+    <path d="M60 50 L62 56 L68 58 L62 60 L60 66 L58 60 L52 58 L58 56 Z" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

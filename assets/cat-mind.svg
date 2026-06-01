@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- profile silhouette, facing right -->
+  <g class="draw-paths" opacity="0.9">
+    <path d="M170 240 L170 178 Q150 168 144 148 Q138 130 140 110 Q144 78 168 60 Q196 42 226 50 Q254 58 266 84 Q272 100 268 116 L260 130 L268 138 L256 144 L258 158 Q256 168 244 168 L228 168 L228 184 Q228 196 218 200 L196 204 L196 240" stroke-dasharray="640 640" stroke-dashoffset="640" stroke-width="1.4"/>
+    <!-- ear -->
+    <path d="M190 130 Q184 134 184 142 Q184 152 192 154" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <!-- eye -->
+    <circle cx="232" cy="118" r="1.6" fill="currentColor" stroke="none"/>
+    <!-- brow -->
+    <path d="M222 108 Q232 104 244 108" stroke-dasharray="24 24" stroke-dashoffset="24" opacity="0.7"/>
+  </g>
+  <!-- labyrinth/maze inside the head -->
+  <g class="draw-paths" transform="translate(206 110)" opacity="0.75">
+    <path d="M-20 0 L20 0 L20 20 L-12 20 L-12 -8 L12 -8 L12 12 L-4 12 L-4 0" stroke-dasharray="200 200" stroke-dashoffset="200"/>
+    <circle cx="0" cy="4" r="2" fill="currentColor" stroke="none"/>
+  </g>
+  <!-- concentric thought rings emanating from the head -->
+  <g class="draw-paths" opacity="0.7">
+    <path d="M300 110 Q320 96 326 76" stroke-dasharray="80 80" stroke-dashoffset="80"/>
+    <path d="M310 130 Q344 122 360 100" stroke-dasharray="120 120" stroke-dashoffset="120" opacity="0.85"/>
+    <path d="M318 150 Q360 152 380 132" stroke-dasharray="120 120" stroke-dashoffset="120" opacity="0.65"/>
+    <path d="M322 168 Q368 178 388 168" stroke-dasharray="120 120" stroke-dashoffset="120" opacity="0.5"/>
+  </g>
+  <!-- thought specks -->
+  <g fill="currentColor" stroke="none" opacity="0.7">
+    <circle cx="332" cy="68" r="2"/>
+    <circle cx="366" cy="94" r="1.6"/>
+    <circle cx="384" cy="126" r="1.8"/>
+    <circle cx="390" cy="166" r="1.4"/>
+  </g>
+  <!-- small spiral, lower left, as a quiet mark of recursion -->
+  <g class="draw-paths" transform="translate(70 230)" opacity="0.7" stroke-dasharray="120 120" stroke-dashoffset="120">
+    <path d="M0 0 Q8 -10 18 -6 Q26 0 22 10 Q14 20 4 16 Q-4 12 -2 4"/>
+  </g>
+</svg>

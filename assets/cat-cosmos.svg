@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- orbital rings -->
+  <g class="draw-paths" opacity="0.85">
+    <ellipse cx="200" cy="150" rx="140" ry="40" stroke-dasharray="700 700" stroke-dashoffset="700"/>
+    <ellipse cx="200" cy="150" rx="100" ry="28" transform="rotate(-12 200 150)" stroke-dasharray="500 500" stroke-dashoffset="500"/>
+    <ellipse cx="200" cy="150" rx="60" ry="18" transform="rotate(8 200 150)" stroke-dasharray="300 300" stroke-dashoffset="300"/>
+  </g>
+  <!-- central sun -->
+  <circle cx="200" cy="150" r="14" fill="currentColor" stroke="none" opacity="0.9"/>
+  <g class="draw-paths" stroke-dasharray="140 140" stroke-dashoffset="140">
+    <circle cx="200" cy="150" r="22"/>
+  </g>
+  <!-- planet on outer ring -->
+  <circle cx="340" cy="150" r="5" fill="currentColor" stroke="none"/>
+  <!-- planet on middle ring -->
+  <circle cx="120" cy="138" r="3.5" fill="currentColor" stroke="none" opacity="0.85"/>
+  <!-- comet upper left with tail -->
+  <g class="draw-paths" opacity="0.85">
+    <circle cx="62" cy="56" r="4" fill="currentColor" stroke="none"/>
+    <path d="M62 56 Q40 70 24 88" stroke-dasharray="70 70" stroke-dashoffset="70" stroke-width="1.4"/>
+    <path d="M62 56 Q44 66 30 78" stroke-dasharray="60 60" stroke-dashoffset="60" opacity="0.55"/>
+  </g>
+  <!-- constellation dots (Big Dipper-ish, lower right) -->
+  <g opacity="0.8">
+    <g class="draw-paths" stroke-dasharray="160 160" stroke-dashoffset="160" opacity="0.5">
+      <path d="M280 250 L300 240 L324 248 L346 238 L356 252 L342 268 L320 262"/>
+    </g>
+    <circle cx="280" cy="250" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="300" cy="240" r="2.4" fill="currentColor" stroke="none"/>
+    <circle cx="324" cy="248" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="346" cy="238" r="2.4" fill="currentColor" stroke="none"/>
+    <circle cx="356" cy="252" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="342" cy="268" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="320" cy="262" r="2" fill="currentColor" stroke="none"/>
+  </g>
+  <!-- scattered stars -->
+  <g fill="currentColor" stroke="none" opacity="0.6">
+    <circle cx="50" cy="200" r="1.2"/>
+    <circle cx="90" cy="240" r="1.4"/>
+    <circle cx="340" cy="80" r="1.4"/>
+    <circle cx="370" cy="110" r="1.2"/>
+    <circle cx="30" cy="140" r="1.2"/>
+  </g>
+</svg>

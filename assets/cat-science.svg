@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- atomic orbits centered on nucleus -->
+  <g class="draw-paths" opacity="0.85">
+    <ellipse cx="200" cy="150" rx="120" ry="42" stroke-dasharray="600 600" stroke-dashoffset="600"/>
+    <ellipse cx="200" cy="150" rx="120" ry="42" transform="rotate(60 200 150)" stroke-dasharray="600 600" stroke-dashoffset="600"/>
+    <ellipse cx="200" cy="150" rx="120" ry="42" transform="rotate(-60 200 150)" stroke-dasharray="600 600" stroke-dashoffset="600"/>
+  </g>
+  <!-- nucleus -->
+  <circle cx="200" cy="150" r="7" fill="currentColor" stroke="none" opacity="0.85"/>
+  <circle cx="200" cy="150" r="13" stroke-dasharray="100 100" stroke-dashoffset="100" class="draw-paths"/>
+  <!-- electrons -->
+  <circle cx="320" cy="150" r="3.5" fill="currentColor" stroke="none"/>
+  <circle cx="140" cy="92" r="3.5" fill="currentColor" stroke="none"/>
+  <circle cx="140" cy="208" r="3.5" fill="currentColor" stroke="none"/>
+  <!-- flask, lower-left -->
+  <g class="draw-paths" transform="translate(56 188)" stroke-dasharray="240 240" stroke-dashoffset="240">
+    <path d="M10 0 L22 0 M10 0 L10 22 L0 50 Q16 60 32 50 L22 22 L22 0"/>
+    <path d="M5 40 Q16 36 27 40" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+  </g>
+  <!-- wave at bottom -->
+  <path class="draw-paths" d="M40 270 Q90 250 140 270 T240 270 T340 270" stroke-dasharray="400 400" stroke-dashoffset="400" opacity="0.7"/>
+  <!-- small star upper right -->
+  <g opacity="0.7">
+    <path d="M340 60 L342 68 L350 70 L342 72 L340 80 L338 72 L330 70 L338 68 Z" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

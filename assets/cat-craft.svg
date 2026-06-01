@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- crossed tools: chef's knife (descending) and whisk (ascending) -->
+  <!-- knife -->
+  <g class="draw-paths" opacity="0.9">
+    <!-- knife handle -->
+    <path d="M104 96 L130 122 L120 132 L94 106 Z" stroke-dasharray="120 120" stroke-dashoffset="120" stroke-width="1.4"/>
+    <!-- knife bolster -->
+    <path d="M130 122 L140 132" stroke-dasharray="20 20" stroke-dashoffset="20"/>
+    <!-- knife blade -->
+    <path d="M140 132 L300 218 Q286 222 270 218 L140 132 Z" stroke-dasharray="380 380" stroke-dashoffset="380" stroke-width="1.4"/>
+    <!-- blade highlight line -->
+    <path d="M150 138 L284 212" stroke-dasharray="170 170" stroke-dashoffset="170" opacity="0.5"/>
+    <!-- handle rivets -->
+    <circle cx="108" cy="112" r="1.6" fill="currentColor" stroke="none"/>
+    <circle cx="118" cy="122" r="1.6" fill="currentColor" stroke="none"/>
+  </g>
+  <!-- whisk (crossing the other way) -->
+  <g class="draw-paths" opacity="0.9">
+    <!-- whisk handle -->
+    <path d="M296 96 L268 124" stroke-dasharray="60 60" stroke-dashoffset="60" stroke-width="2"/>
+    <!-- ferrule -->
+    <path d="M264 120 L276 132" stroke-dasharray="20 20" stroke-dashoffset="20"/>
+    <!-- bulb outline -->
+    <path d="M258 134 Q220 172 188 210 Q210 230 240 224 Q272 218 286 184 Q298 158 286 138 Z" stroke-dasharray="320 320" stroke-dashoffset="320"/>
+    <!-- whisk wires (inner loops) -->
+    <path d="M260 132 Q240 168 204 212" stroke-dasharray="120 120" stroke-dashoffset="120" opacity="0.85"/>
+    <path d="M268 134 Q258 174 232 218" stroke-dasharray="120 120" stroke-dashoffset="120" opacity="0.85"/>
+    <path d="M276 136 Q280 174 262 216" stroke-dasharray="120 120" stroke-dashoffset="120" opacity="0.85"/>
+    <path d="M284 140 Q294 170 278 204" stroke-dasharray="100 100" stroke-dashoffset="100" opacity="0.75"/>
+  </g>
+  <!-- laurel wreath framing, two halves -->
+  <g class="draw-paths" opacity="0.75">
+    <!-- left half -->
+    <path d="M80 150 Q60 220 130 268" stroke-dasharray="180 180" stroke-dashoffset="180"/>
+    <!-- leaves on left -->
+    <path d="M76 168 Q66 168 64 178 Q72 180 78 174 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <path d="M70 196 Q60 198 60 208 Q68 210 76 204 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <path d="M76 226 Q68 232 72 244 Q82 242 86 232 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <path d="M96 254 Q90 262 98 270 Q108 266 108 258 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <!-- right half -->
+    <path d="M320 150 Q340 220 270 268" stroke-dasharray="180 180" stroke-dashoffset="180"/>
+    <path d="M324 168 Q334 168 336 178 Q328 180 322 174 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <path d="M330 196 Q340 198 340 208 Q332 210 324 204 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <path d="M324 226 Q332 232 328 244 Q318 242 314 232 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+    <path d="M304 254 Q310 262 302 270 Q292 266 292 258 Z" stroke-dasharray="40 40" stroke-dashoffset="40"/>
+  </g>
+  <!-- ribbon at top, holding wreath -->
+  <g class="draw-paths" opacity="0.7" stroke-dasharray="60 60" stroke-dashoffset="60">
+    <path d="M192 50 L208 50 L204 60 L196 60 Z"/>
+    <path d="M192 50 L184 44 M208 50 L216 44"/>
+  </g>
+</svg>

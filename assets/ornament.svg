@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 16" fill="currentColor" aria-hidden="true">
+  <g opacity="0.85">
+    <path d="M52 8 L56 4 L60 8 L56 12 Z"/>
+    <path d="M60 8 L64 6 L68 8 L64 10 Z" opacity="0.55"/>
+    <path d="M44 8 L48 6 L52 8 L48 10 Z" opacity="0.55"/>
+  </g>
+  <g stroke="currentColor" stroke-width="0.6" opacity="0.5">
+    <line x1="0" y1="8" x2="40" y2="8"/>
+    <line x1="80" y1="8" x2="120" y2="8"/>
+  </g>
+</svg>

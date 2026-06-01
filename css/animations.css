@@ -1,0 +1,525 @@
+/* ============================================================
+   Learn Something New — Animations
+   Soft fades, gentle lifts, breathing pills, stroke draws.
+   All respect prefers-reduced-motion.
+   ============================================================ */
+
+:root {
+  --ease-out:  cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in:   cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  --ease-soft: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-quill: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --dur-fast:  140ms;
+  --dur-base:  240ms;
+  --dur-rise:  400ms;
+  --dur-slow:  640ms;
+}
+
+/* ---------- Mount fade/rise for view transitions ---------- */
+
+.mount-enter {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.mount-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--dur-rise) var(--ease-out),
+    transform var(--dur-rise) var(--ease-out);
+}
+
+.mount-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mount-exit-active {
+  opacity: 0;
+  transform: translateY(0);
+  transition: opacity 200ms var(--ease-in);
+}
+
+/* ---------- Page enter (a richer settle: opacity + lift + blur) ---------- */
+
+@keyframes page-enter-kf {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
+  60% {
+    filter: blur(0.6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.page-enter {
+  animation: page-enter-kf 600ms var(--ease-quill) both;
+}
+
+/* ---------- Depth-change transitions (reader level advance/retreat) ---------- */
+/* #app gets depth-exit-* during fade-out, then depth-enter-* during fade-in.
+   "deeper" = descending; "back" = retreating. Ink-bleed via blur + slight scale. */
+
+@keyframes depth-deeper-out-kf {
+  0%   { opacity: 1; transform: translateY(0) scale(1);      filter: blur(0); }
+  100% { opacity: 0; transform: translateY(-22px) scale(0.985); filter: blur(5px); }
+}
+@keyframes depth-deeper-in-kf {
+  0%   { opacity: 0; transform: translateY(26px) scale(1.012); filter: blur(6px); }
+  55%  { filter: blur(1px); }
+  100% { opacity: 1; transform: translateY(0) scale(1);        filter: blur(0); }
+}
+@keyframes depth-back-out-kf {
+  0%   { opacity: 1; transform: translateY(0) scale(1);       filter: blur(0); }
+  100% { opacity: 0; transform: translateY(20px) scale(1.01); filter: blur(5px); }
+}
+@keyframes depth-back-in-kf {
+  0%   { opacity: 0; transform: translateY(-22px) scale(0.99); filter: blur(6px); }
+  55%  { filter: blur(1px); }
+  100% { opacity: 1; transform: translateY(0) scale(1);        filter: blur(0); }
+}
+
+.depth-exit-deeper { animation: depth-deeper-out-kf 240ms var(--ease-in) both; }
+.depth-exit-back   { animation: depth-back-out-kf   240ms var(--ease-in) both; }
+.depth-enter-deeper { animation: depth-deeper-in-kf 520ms var(--ease-quill) both; }
+.depth-enter-back   { animation: depth-back-in-kf   460ms var(--ease-quill) both; }
+
+/* ---------- Staggered entrance for grid items ---------- */
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.rise {
+  animation: rise-in var(--dur-rise) var(--ease-out) both;
+}
+
+.stagger > * {
+  animation: rise-in var(--dur-rise) var(--ease-out) both;
+}
+.stagger > *:nth-child(1)  { animation-delay: 40ms; }
+.stagger > *:nth-child(2)  { animation-delay: 80ms; }
+.stagger > *:nth-child(3)  { animation-delay: 120ms; }
+.stagger > *:nth-child(4)  { animation-delay: 160ms; }
+.stagger > *:nth-child(5)  { animation-delay: 200ms; }
+.stagger > *:nth-child(6)  { animation-delay: 240ms; }
+.stagger > *:nth-child(7)  { animation-delay: 280ms; }
+.stagger > *:nth-child(8)  { animation-delay: 320ms; }
+.stagger > *:nth-child(9)  { animation-delay: 360ms; }
+.stagger > *:nth-child(10) { animation-delay: 400ms; }
+.stagger > *:nth-child(11) { animation-delay: 440ms; }
+.stagger > *:nth-child(12) { animation-delay: 480ms; }
+
+/* ---------- Reveal on scroll (IntersectionObserver hook) ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 700ms var(--ease-quill),
+    transform 700ms var(--ease-quill);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Prose waterfall reveal (per-block in reader) ---------- */
+
+.prose-reveal {
+  /* slightly smaller offset than card .reveal for a calmer cadence */
+  transform: translateY(14px);
+}
+.prose-reveal.is-in { transform: translateY(0); }
+
+/* cap the cascade so deep prose doesn't lag — repeat every 5 */
+.prose-reveal:nth-child(5n + 1) { transition-delay: 0ms; }
+.prose-reveal:nth-child(5n + 2) { transition-delay: 60ms; }
+.prose-reveal:nth-child(5n + 3) { transition-delay: 120ms; }
+.prose-reveal:nth-child(5n + 4) { transition-delay: 180ms; }
+.prose-reveal:nth-child(5n + 5) { transition-delay: 240ms; }
+
+/* The drop-cap lives on the first prose <p>, now inside .prose-reveal.
+   Keep the drop-cap selector working through the wrapper (see C7). */
+
+/* When inside a staggered grid, give each card a touch more delay */
+.stagger > .reveal:nth-child(2)  { transition-delay: 40ms; }
+.stagger > .reveal:nth-child(3)  { transition-delay: 80ms; }
+.stagger > .reveal:nth-child(4)  { transition-delay: 120ms; }
+.stagger > .reveal:nth-child(5)  { transition-delay: 160ms; }
+.stagger > .reveal:nth-child(6)  { transition-delay: 200ms; }
+.stagger > .reveal:nth-child(7)  { transition-delay: 240ms; }
+.stagger > .reveal:nth-child(8)  { transition-delay: 280ms; }
+.stagger > .reveal:nth-child(9)  { transition-delay: 320ms; }
+
+/* ---------- Stroke-draw on SVG paths ----------
+   SVGs author paths with stroke-dasharray + a large stroke-dashoffset
+   set inline. When the SVG (.draw-on-view) becomes visible, the
+   IntersectionObserver adds .is-drawn — the paths are then animated
+   toward stroke-dashoffset: 0.
+   We can't easily transition inline-attribute dashoffset, but we can
+   re-declare via CSS using path { transition }.
+   ---------------------------------------------- */
+
+.draw-on-view img,
+.draw-on-view svg {
+  /* Initial state: nudged + transparent */
+  opacity: 0;
+  transform: scale(0.985);
+  transition:
+    opacity 900ms var(--ease-quill),
+    transform 1200ms var(--ease-quill);
+}
+.draw-on-view.is-drawn img,
+.draw-on-view.is-in img,
+.draw-on-view.is-drawn svg,
+.draw-on-view.is-in svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* For inlined SVGs, also animate the stroke dasharray on .draw-paths */
+.draw-on-view svg .draw-paths,
+.draw-on-view svg .draw-paths > * {
+  transition: stroke-dashoffset 1300ms var(--ease-out);
+}
+.draw-on-view.is-drawn svg .draw-paths,
+.draw-on-view.is-drawn svg .draw-paths > *,
+.draw-on-view.is-in svg .draw-paths,
+.draw-on-view.is-in svg .draw-paths > * {
+  stroke-dashoffset: 0 !important;
+}
+
+/* ---------- Breathing pulse for Continue button ---------- */
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 1;
+    box-shadow:
+      0 1px 2px rgba(26, 20, 16, 0.15),
+      0 14px 28px -14px rgba(26, 20, 16, 0.45),
+      0 0 0 0 rgba(184, 146, 58, 0.0);
+  }
+  50% {
+    opacity: 0.97;
+    box-shadow:
+      0 1px 2px rgba(26, 20, 16, 0.15),
+      0 18px 32px -14px rgba(26, 20, 16, 0.45),
+      0 0 0 8px rgba(184, 146, 58, 0.06);
+  }
+}
+
+.breathe {
+  animation: breathe 3.4s var(--ease-soft) infinite;
+}
+
+/* ---------- Ornament drift ---------- */
+
+@keyframes ornament-glow {
+  0%, 100% { opacity: 0.65; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.04); }
+}
+
+.ornament-glow {
+  animation: ornament-glow 6s var(--ease-soft) infinite;
+}
+
+/* ---------- Hover transitions ---------- */
+
+.tx-lift {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.tx-fade {
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+/* ---------- Progress thread fill + living dot halo ---------- */
+
+@keyframes thread-fill-kf {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes dot-halo-kf {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(184, 85, 46, 0.0); }
+  50%      { box-shadow: 0 0 0 6px rgba(184, 85, 46, 0.14); }
+}
+
+@keyframes dot-done {
+  from { transform: scale(0.7); }
+  to   { transform: scale(1); }
+}
+.rail-dot.is-done { animation: dot-done 280ms var(--ease-out); }
+
+/* ---------- Glyph float (corner glyphs on cards / heads) ---------- */
+
+@keyframes glyph-float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50%      { transform: translateY(-4px) rotate(-2deg); }
+}
+
+/* Float the corner glyphs only on hover-capable devices. On phones, 15+ of
+   these looping at once (plus the ambient canvas) is needless battery/jank;
+   they stay perfectly visible, just static. */
+@media (hover: hover) and (pointer: fine) {
+  .cat-card .cat-glyph,
+  .topic-card .topic-glyph {
+    animation: glyph-float 4.6s var(--ease-soft) infinite;
+  }
+}
+
+/* ---------- Hero glyph slow rotation (orrery) ---------- */
+
+@keyframes slow-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Match both the <img> and the inline <svg> it becomes after hydration,
+   otherwise the rotation silently stops once the SVG is inlined. */
+.hero-orrery img,
+.hero-orrery svg {
+  animation: slow-rotate 90s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+/* ---------- Hero title shimmer (one-shot gold sweep) ---------- */
+
+@keyframes title-shimmer {
+  0%   { background-position: -120% 0; }
+  100% { background-position: 220% 0; }
+}
+
+.shimmer-once {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    currentColor 40%,
+    rgba(184, 146, 58, 0.85) 50%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  background-size: 220% 100%;
+  background-position: -120% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: title-shimmer 1.6s var(--ease-soft) 200ms 1 both;
+}
+.shimmer-once .italic {
+  /* preserve italic accent color through the gradient */
+  -webkit-text-fill-color: var(--accent-deep);
+  color: var(--accent-deep);
+}
+
+/* ---------- Pull-quote entrance ---------- */
+
+@keyframes pullquote-in {
+  0%   { opacity: 0; transform: translateX(-10px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.pullquote {
+  animation: pullquote-in 700ms var(--ease-quill) 220ms both;
+}
+
+/* ---------- Level title settle (reader subhead eases in italic) ---------- */
+
+@keyframes level-title-settle {
+  0%   { opacity: 0; transform: translateY(6px); letter-spacing: 0.02em; }
+  100% { opacity: 1; transform: translateY(0);   letter-spacing: -0.012em; }
+}
+.reader-level-title {
+  animation: level-title-settle 560ms var(--ease-quill) 120ms both;
+}
+
+/* ---------- Drop-cap reveal ---------- */
+
+@keyframes dropcap-in {
+  0%   { opacity: 0; transform: scale(0.7); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.reader-body .prose-reveal:first-of-type p:first-of-type::first-letter,
+.reader-body > p:first-of-type::first-letter {
+  display: inline-block;
+  animation: dropcap-in 500ms var(--ease-quill) 360ms both;
+}
+
+/* ---------- Drop / finis ornament fade ---------- */
+
+@keyframes drop-orn-in {
+  0%   { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0.55; transform: translateY(0); }
+}
+.drop-ornament,
+.finis-ornament {
+  animation: drop-orn-in 700ms var(--ease-quill) 200ms both;
+}
+
+/* ---------- Completion celebratory rings ---------- */
+
+@keyframes ring-pulse {
+  0%   { transform: scale(0.4); opacity: 0; }
+  20%  { opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.complete-rings .ring {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 120px; height: 120px;
+  margin: -60px 0 0 -60px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  opacity: 0;
+  pointer-events: none;
+}
+.complete-rings .ring.r1 { animation: ring-pulse 3.4s var(--ease-soft) infinite; }
+.complete-rings .ring.r2 { animation: ring-pulse 3.4s var(--ease-soft) infinite 0.6s; }
+.complete-rings .ring.r3 { animation: ring-pulse 3.4s var(--ease-soft) infinite 1.2s; }
+.complete-rings .ring.r4 { animation: ring-pulse 3.4s var(--ease-soft) infinite 1.8s; }
+
+/* ---------- Page transition overlay sweep ---------- */
+
+@keyframes page-wipe {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  30%  { opacity: 0.18; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+#page-transition.is-active::after {
+  animation: page-wipe 700ms var(--ease-quill);
+}
+
+/* ---------- Completion glyph gentle float/glow ---------- */
+
+@keyframes complete-glyph-kf {
+  0%, 100% { transform: translateY(0) scale(1); text-shadow: 0 0 0 rgba(184,146,58,0); }
+  50%      { transform: translateY(-5px) scale(1.03); text-shadow: 0 0 22px rgba(184,146,58,0.35); }
+}
+.complete-rings .complete-ornament {
+  animation: complete-glyph-kf 5s var(--ease-soft) infinite;
+}
+
+/* ---------- Surprise tile dice glyph life ---------- */
+
+@keyframes dice-tumble-kf {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25%      { transform: rotate(8deg) scale(1.04); }
+  50%      { transform: rotate(-6deg) scale(1.02); }
+  75%      { transform: rotate(4deg) scale(1.05); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .cat-card.surprise .cat-glyph {
+    animation: dice-tumble-kf 6s var(--ease-soft) infinite;
+  }
+  .cat-card.surprise:hover .cat-glyph {
+    animation-duration: 2.4s;
+  }
+}
+
+/* ---------- Reduced motion: kill all transforms ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 80ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 80ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .mount-enter,
+  .mount-enter-active,
+  .mount-exit,
+  .mount-exit-active,
+  .rise,
+  .stagger > *,
+  .reveal,
+  .prose-reveal,
+  .reader-level-title,
+  .depth-enter-deeper,
+  .depth-enter-back,
+  .depth-exit-deeper,
+  .depth-exit-back,
+  .page-enter,
+  .pullquote,
+  .draw-on-view img,
+  .draw-on-view svg {
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  .breathe,
+  .ornament-glow,
+  .hero-orrery img,
+  .hero-orrery svg,
+  .complete-rings .ring,
+  .thread-fill,
+  .rail-dot.is-current .rail-dot-inner,
+  .drop-ornament,
+  .complete-rings .complete-ornament,
+  .cat-card.surprise .cat-glyph,
+  .cat-card .cat-glyph,
+  .topic-card .topic-glyph,
+  .reader-level-title,
+  .shimmer-once {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .depth-enter-deeper, .depth-enter-back,
+  .depth-exit-deeper, .depth-exit-back {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+  .thread-fill {
+    /* keep the static width (no scaleX animation) */
+    transform: none !important;
+    animation: none !important;
+  }
+  .scroll-hairline-fill {
+    transition: none !important;
+  }
+  .card-tilt:hover {
+    transform: none !important;   /* no tilt */
+  }
+  .card-tilt {
+    background-image: none !important; /* no pointer bloom */
+  }
+
+  .shimmer-once {
+    -webkit-text-fill-color: currentColor !important;
+    color: var(--ink) !important;
+    background: none !important;
+  }
+
+  .tx-lift:hover {
+    transform: none !important;
+  }
+
+  #page-transition.is-active::after {
+    animation: none !important;
+  }
+}

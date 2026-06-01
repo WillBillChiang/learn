@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- circuit tree growing upward from base -->
+  <g class="draw-paths" opacity="0.9">
+    <!-- trunk -->
+    <path d="M200 280 L200 220" stroke-dasharray="60 60" stroke-dashoffset="60"/>
+    <!-- main branches -->
+    <path d="M200 220 L140 180 L140 130" stroke-dasharray="180 180" stroke-dashoffset="180"/>
+    <path d="M200 220 L260 180 L260 130" stroke-dasharray="180 180" stroke-dashoffset="180"/>
+    <path d="M200 220 L200 160" stroke-dasharray="60 60" stroke-dashoffset="60"/>
+    <!-- sub branches L -->
+    <path d="M140 160 L100 130 L100 90" stroke-dasharray="120 120" stroke-dashoffset="120"/>
+    <path d="M140 160 L180 130" stroke-dasharray="55 55" stroke-dashoffset="55"/>
+    <!-- sub branches R -->
+    <path d="M260 160 L300 130 L300 90" stroke-dasharray="120 120" stroke-dashoffset="120"/>
+    <path d="M260 160 L220 130" stroke-dasharray="55 55" stroke-dashoffset="55"/>
+    <!-- top -->
+    <path d="M200 160 L200 80" stroke-dasharray="80 80" stroke-dashoffset="80"/>
+    <path d="M200 100 L240 70" stroke-dasharray="55 55" stroke-dashoffset="55"/>
+    <path d="M200 100 L160 70" stroke-dasharray="55 55" stroke-dashoffset="55"/>
+  </g>
+  <!-- nodes (solder joints) -->
+  <g fill="currentColor" stroke="none" opacity="0.9">
+    <circle cx="200" cy="220" r="3"/>
+    <circle cx="140" cy="180" r="2.5"/>
+    <circle cx="260" cy="180" r="2.5"/>
+    <circle cx="140" cy="160" r="2.5"/>
+    <circle cx="260" cy="160" r="2.5"/>
+    <circle cx="200" cy="160" r="2.5"/>
+    <circle cx="100" cy="90" r="3"/>
+    <circle cx="300" cy="90" r="3"/>
+    <circle cx="200" cy="80" r="3"/>
+    <circle cx="240" cy="70" r="2.5"/>
+    <circle cx="160" cy="70" r="2.5"/>
+    <circle cx="180" cy="130" r="2"/>
+    <circle cx="220" cy="130" r="2"/>
+  </g>
+  <!-- transistor silhouette (corner) -->
+  <g class="draw-paths" transform="translate(40 220)" opacity="0.75" stroke-dasharray="160 160" stroke-dashoffset="160">
+    <rect x="0" y="0" width="38" height="26" rx="2"/>
+    <line x1="8" y1="26" x2="8" y2="40"/>
+    <line x1="19" y1="26" x2="19" y2="40"/>
+    <line x1="30" y1="26" x2="30" y2="40"/>
+  </g>
+  <!-- chip on right -->
+  <g class="draw-paths" transform="translate(322 230)" opacity="0.75" stroke-dasharray="200 200" stroke-dashoffset="200">
+    <rect x="0" y="0" width="36" height="36" rx="2"/>
+    <line x1="-6" y1="8" x2="0" y2="8"/>
+    <line x1="-6" y1="18" x2="0" y2="18"/>
+    <line x1="-6" y1="28" x2="0" y2="28"/>
+    <line x1="36" y1="8" x2="42" y2="8"/>
+    <line x1="36" y1="18" x2="42" y2="18"/>
+    <line x1="36" y1="28" x2="42" y2="28"/>
+  </g>
+</svg>

@@ -1,0 +1,223 @@
+/* ============================================================
+   Learn Something New — Flourish layer
+   A final coat of craft on top of the base system: letterpress
+   titles, a matted-plate frame, gilt button sweeps, engraved
+   card plates, and richer gold ornament. Everything here is
+   additive and degrades to nothing under reduced motion.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Matted-plate frame
+   A hairline gold rule inset from the viewport edge with crisp
+   engraved corner brackets — the site now reads as a print
+   matted on a gallery wall. Fixed, decorative, never interactive.
+   ------------------------------------------------------------ */
+
+.page-edge {
+  position: fixed;
+  inset: clamp(11px, 1.5vw, 24px);
+  z-index: 4;                 /* above bg + content margins, below transition(5)/hairline(6) */
+  pointer-events: none;
+  border: 1px solid rgba(184, 146, 58, 0.16);
+  border-radius: 3px;
+  /* a whisper of inner warmth so the frame feels lit, not drawn */
+  box-shadow: inset 0 0 60px rgba(184, 146, 58, 0.03);
+  animation: edge-in 1500ms var(--ease-quill) 200ms both;
+}
+
+/* Four engraved corner brackets, drawn as short gold L-marks that
+   sit exactly on the frame corners. ::before = top pair, ::after =
+   bottom pair. They bloom a touch brighter than the hairline. */
+.page-edge::before,
+.page-edge::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  --bk: 15px;                  /* bracket arm length */
+  --bw: 1px;                   /* bracket arm weight   */
+}
+.page-edge::before {
+  background:
+    linear-gradient(var(--gold), var(--gold)) left  top / var(--bk) var(--bw) no-repeat,
+    linear-gradient(var(--gold), var(--gold)) left  top / var(--bw) var(--bk) no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right top / var(--bk) var(--bw) no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right top / var(--bw) var(--bk) no-repeat;
+  opacity: 0.55;
+}
+.page-edge::after {
+  background:
+    linear-gradient(var(--gold), var(--gold)) left  bottom / var(--bk) var(--bw) no-repeat,
+    linear-gradient(var(--gold), var(--gold)) left  bottom / var(--bw) var(--bk) no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right bottom / var(--bk) var(--bw) no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right bottom / var(--bw) var(--bk) no-repeat;
+  opacity: 0.55;
+}
+
+@keyframes edge-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* On the night scene the gilt frame glows a touch warmer against dusk. */
+body[data-scene="cosmos"] .page-edge {
+  border-color: rgba(184, 146, 58, 0.24);
+  box-shadow: inset 0 0 70px rgba(184, 146, 58, 0.05);
+}
+
+/* Phones: the matte would crowd a small screen — keep them edge-to-edge. */
+@media (max-width: 600px) {
+  .page-edge { display: none; }
+}
+
+/* ------------------------------------------------------------
+   2. Letterpress serif titles
+   The display headings sit a hair deeper in the paper — a faint
+   highlight beneath each glyph reads as ink pressed into a sheet.
+   (The hero wordmark is left alone: it owns the gilt shimmer.)
+   ------------------------------------------------------------ */
+
+.reader-title,
+.reader-level-title,
+.cat-head h1,
+.cat-name,
+.topic-title,
+.lod-title,
+.complete h1 {
+  text-shadow: 0 1px 0 rgba(255, 252, 245, 0.55);
+}
+
+/* On dusk, a light highlight reads wrong on dark paper — swap to a
+   soft drop that lifts the paper-white titles off the night. */
+body[data-scene="cosmos"] .reader-title,
+body[data-scene="cosmos"] .reader-level-title,
+body[data-scene="cosmos"] .cat-head h1,
+body[data-scene="cosmos"] .complete h1 {
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* ------------------------------------------------------------
+   3. Gilt light-sweep on primary buttons
+   A slow band of gold light passes across the pill on hover —
+   the catch of light on a foil-stamped surface.
+   ------------------------------------------------------------ */
+
+.btn-continue,
+.complete .actions .btn-solid:not(.btn-ghost-solid) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* keep label + arrow above the sweep */
+.btn-continue > span,
+.complete .actions .btn-solid > span {
+  position: relative;
+  z-index: 1;
+}
+.btn-continue::before,
+.complete .actions .btn-solid:not(.btn-ghost-solid)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 32%,
+    rgba(184, 146, 58, 0.42) 50%,
+    transparent 68%
+  );
+  transform: translateX(-140%);
+  transition: transform 760ms var(--ease-quill);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-continue:hover::before,
+  .complete .actions .btn-solid:not(.btn-ghost-solid):hover::before {
+    transform: translateX(140%);
+  }
+}
+/* On dusk the pill is gold; sweep it with warm paper light instead. */
+body[data-scene="cosmos"] .btn-continue::before {
+  background: linear-gradient(
+    105deg,
+    transparent 32%,
+    rgba(244, 237, 224, 0.5) 50%,
+    transparent 68%
+  );
+}
+
+/* ------------------------------------------------------------
+   4. Engraved card plates
+   The inner double-rule warms to gold on hover, and the
+   illustration shelf gains a soft inset so the line art reads
+   as mounted in a frame rather than floating on the card.
+   ------------------------------------------------------------ */
+
+@media (hover: hover) and (pointer: fine) {
+  .cat-card:hover::after,
+  .topic-card:hover::after {
+    border-color: rgba(184, 146, 58, 0.30);
+  }
+}
+
+.cat-illus {
+  /* a whisper of vignette + a faint engraver's hatch behind the art */
+  box-shadow: inset 0 0 26px rgba(26, 20, 16, 0.05);
+}
+.cat-illus::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(26, 20, 16, 0.020) 0 1px,
+    transparent 1px 9px
+  );
+  opacity: 0.6;
+  mix-blend-mode: multiply;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cat-card:hover .cat-illus::before { opacity: 0.9; }
+}
+
+/* ------------------------------------------------------------
+   5. Richer gold ornament
+   The little lozenges in the section ornaments catch light like
+   struck metal rather than reading as flat fills.
+   ------------------------------------------------------------ */
+
+.ornament .diamond {
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 248, 228, 0.9), transparent 55%),
+    linear-gradient(135deg, var(--gold) 0%, var(--accent-deep) 100%);
+  box-shadow: 0 0 6px rgba(184, 146, 58, 0.35);
+}
+
+/* ------------------------------------------------------------
+   6. Footer colophon
+   A centered gilt hairline above the mark turns the footer into
+   a printed colophon — the page closes the way it opened, with
+   a thread of gold.
+   ------------------------------------------------------------ */
+
+.site-footer::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 1px;
+  margin: 0 auto 1.15rem;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+}
+
+/* ------------------------------------------------------------
+   7. Reduced motion: no sweeps, no fade-ins — show final states.
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .page-edge { animation: none !important; opacity: 1 !important; }
+  .btn-continue::before,
+  .complete .actions .btn-solid::before {
+    display: none !important;
+  }
+}

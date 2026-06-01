@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- coin standing on edge with long shadow -->
+  <g class="draw-paths" opacity="0.9">
+    <ellipse cx="140" cy="170" rx="44" ry="58" stroke-dasharray="320 320" stroke-dashoffset="320"/>
+    <ellipse cx="140" cy="170" rx="44" ry="58" stroke-dasharray="320 320" stroke-dashoffset="320" transform="rotate(-4 140 170)" opacity="0.5"/>
+    <!-- inner monogram on the coin -->
+    <path d="M126 154 L126 188 M126 154 L154 188 M154 154 L154 188" stroke-dasharray="120 120" stroke-dashoffset="120"/>
+    <path d="M118 172 L162 172" stroke-dasharray="50 50" stroke-dashoffset="50" opacity="0.7"/>
+  </g>
+  <!-- long shadow trailing right -->
+  <g class="draw-paths" opacity="0.55">
+    <path d="M184 228 Q230 234 280 230" stroke-dasharray="120 120" stroke-dashoffset="120"/>
+    <path d="M184 232 Q236 240 296 234" stroke-dasharray="140 140" stroke-dashoffset="140" opacity="0.7"/>
+  </g>
+  <!-- small coin stack, lower left -->
+  <g class="draw-paths" transform="translate(40 232)" opacity="0.85" stroke-dasharray="280 280" stroke-dashoffset="280">
+    <ellipse cx="32" cy="0" rx="28" ry="6"/>
+    <path d="M4 0 L4 8 M60 0 L60 8"/>
+    <ellipse cx="32" cy="8" rx="28" ry="6"/>
+    <path d="M4 8 L4 16 M60 8 L60 16"/>
+    <ellipse cx="32" cy="16" rx="28" ry="6"/>
+    <path d="M4 16 L4 24 M60 16 L60 24"/>
+    <ellipse cx="32" cy="24" rx="28" ry="6"/>
+  </g>
+  <!-- upward graph rule ending in a flourish -->
+  <g class="draw-paths" opacity="0.85">
+    <path d="M220 240 L260 200 L290 220 L330 150 L360 110" stroke-dasharray="260 260" stroke-dashoffset="260" stroke-width="1.4"/>
+    <!-- terminating flourish -->
+    <path d="M360 110 Q372 96 376 78 Q378 64 366 60 Q356 58 358 70 Q360 80 372 84" stroke-dasharray="120 120" stroke-dashoffset="120"/>
+  </g>
+  <!-- graph tick marks along baseline -->
+  <g opacity="0.5">
+    <path d="M220 248 L220 252 M260 248 L260 252 M290 248 L290 252 M330 248 L330 252 M360 248 L360 252" stroke-dasharray="6 6"/>
+  </g>
+  <!-- small star upper right -->
+  <g opacity="0.7">
+    <path d="M310 56 L312 64 L320 66 L312 68 L310 76 L308 68 L300 66 L308 64 Z" fill="currentColor" stroke="none"/>
+  </g>
+</svg>
