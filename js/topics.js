@@ -24,7 +24,9 @@
     { slug: 'craft',       name: 'Craft',       glyph: '✶', tint: '#b06b3a', blurb: 'Skills worth a lifetime.' },
     { slug: 'home',        name: 'Home',        glyph: '❧', tint: '#7d5a3a', blurb: 'The quiet systems behind your walls.' },
     { slug: 'digital',     name: 'Digital',     glyph: '⚜', tint: '#3a5a7d', blurb: 'The world that lives in the wires.' },
-    { slug: 'music',       name: 'Music',       glyph: '♪', tint: '#78568c', blurb: 'The architecture of sound and silence.' }
+    { slug: 'music',       name: 'Music',       glyph: '♪', tint: '#78568c', blurb: 'The architecture of sound and silence.' },
+    { slug: 'uiux',        name: 'UI & UX',     glyph: '▦', tint: '#3a7d8c', blurb: 'Designing the space between you and the screen.' },
+    { slug: 'fashion',     name: 'Fashion',     glyph: '✄', tint: '#a8547a', blurb: 'Cloth, cut, and the language of dress.' }
   ];
 
   for (var i = 0; i < window.CATEGORIES.length; i++) {

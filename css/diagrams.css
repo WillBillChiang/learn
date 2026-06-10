@@ -1,0 +1,91 @@
+/* ============================================================
+   Learn Something New — diagrams.css
+   Inline explanatory SVG figures inside the reading prose.
+
+   CONTRACT for every diagram (see lsn-content-writer-recipe):
+   - Markup: <figure class="lsn-fig"><svg class="lsn-dia" viewBox="0 0 W H"
+       role="img" aria-label="…">…</svg><figcaption>…</figcaption></figure>
+   - Animation is CSS keyframes inside each SVG's own <style> block, scoped
+     by a unique per-diagram class prefix. NO SMIL (can't honor reduced-motion).
+   - The element's BASE CSS (outside @keyframes) must be its COMPLETE, final
+     appearance. Animations are ENTRANCES: from = hidden/initial, to = complete,
+     with animation-fill-mode: both. Then disabling animation (reduced-motion or
+     the QC freeze) renders the whole figure correctly built.
+   ============================================================ */
+
+.lsn-fig {
+  margin: 2.2em auto;
+  max-width: 560px;
+  text-align: center;
+  /* currentColor inside the SVG picks up the topic tint */
+  color: var(--tint, var(--accent));
+}
+
+.lsn-dia {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 247, 0.55), rgba(235, 225, 207, 0.30));
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 252, 245, 0.4);
+  /* visible (not clipped) so a stray, off-canvas element is caught by QC and
+     never silently cropped — well-formed diagrams stay inside the viewBox. */
+  overflow: visible;
+}
+
+/* Sensible SVG text defaults; individual diagrams may override per element.
+   The fill default applies ONLY when a <text> has no explicit fill attribute —
+   a presentation attribute loses to any CSS rule, so :not([fill]) lets authors
+   color labels with a plain fill="…" without being overridden here. */
+.lsn-dia text { font-family: var(--font-body); }
+/* Zero-specificity (:where) so ANY class- or attribute-set fill in a diagram
+   wins; :not([fill]) still skips text that sets fill via attribute. This keeps
+   the ink-soft default for unstyled text without overriding intentional label
+   colors (a single-class fill was previously losing to a 0,2,1 selector). */
+:where(.lsn-dia text:not([fill])) { fill: var(--ink-soft); }
+.lsn-dia .dia-title { fill: var(--ink); font-weight: 600; }
+.lsn-dia .dia-mono  { font-family: var(--font-mono); }
+.lsn-dia .dia-mute  { fill: var(--ink-mute); }
+.lsn-dia .dia-accent{ fill: var(--accent); }
+
+.lsn-fig figcaption {
+  margin-top: 0.75em;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--ink-mute);
+  text-wrap: pretty;
+  max-width: 48ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lsn-fig figcaption b,
+.lsn-fig figcaption strong {
+  color: var(--ink-soft);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Narrow screens: let diagrams breathe edge-to-edge of the reading column. */
+@media (max-width: 600px) {
+  .lsn-fig { margin: 1.7em auto; }
+  .lsn-fig figcaption { font-size: 0.8rem; }
+}
+
+/* ---- Motion safety net -------------------------------------------------
+   Global backstop in addition to each SVG's own @media block. With every
+   animation removed, elements fall back to their (complete) base CSS. */
+@media (prefers-reduced-motion: reduce) {
+  .lsn-dia * { animation: none !important; }
+}
+
+/* ---- QC freeze ----------------------------------------------------------
+   The screenshot harness wraps diagrams in a .lsn-freeze container to force
+   the fully-built resting state, so a captured frame shows the complete
+   figure (never a mid-reveal moment). Same fallback as reduced-motion. */
+.lsn-freeze .lsn-dia *,
+.lsn-dia.lsn-freeze * { animation: none !important; }

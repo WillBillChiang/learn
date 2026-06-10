@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- main device frame -->
+  <g class="draw-paths" opacity="0.9" stroke-dasharray="760 760" stroke-dashoffset="760">
+    <rect x="96" y="64" width="208" height="150" rx="10" stroke-width="1.4"/>
+    <!-- top bar -->
+    <line x1="96" y1="92" x2="304" y2="92"/>
+  </g>
+  <!-- window dots -->
+  <g fill="currentColor" stroke="none" opacity="0.8">
+    <circle cx="112" cy="78" r="2.4"/>
+    <circle cx="122" cy="78" r="2.4"/>
+    <circle cx="132" cy="78" r="2.4"/>
+  </g>
+  <!-- left nav column -->
+  <g class="draw-paths" opacity="0.55" stroke-dasharray="200 200" stroke-dashoffset="200">
+    <line x1="118" y1="110" x2="150" y2="110"/>
+    <line x1="118" y1="126" x2="150" y2="126"/>
+    <line x1="118" y1="142" x2="150" y2="142"/>
+    <line x1="118" y1="158" x2="150" y2="158"/>
+  </g>
+  <!-- content card + text lines -->
+  <g class="draw-paths" opacity="0.75" stroke-dasharray="320 320" stroke-dashoffset="320">
+    <rect x="172" y="108" width="112" height="40" rx="5"/>
+    <line x1="172" y1="166" x2="284" y2="166"/>
+    <line x1="172" y1="180" x2="256" y2="180"/>
+    <line x1="172" y1="194" x2="272" y2="194"/>
+  </g>
+  <!-- a toggle switch, floating lower-left -->
+  <g class="draw-paths" opacity="0.7" stroke-dasharray="120 120" stroke-dashoffset="120">
+    <rect x="78" y="232" width="40" height="20" rx="10"/>
+    <circle cx="108" cy="242" r="6" fill="currentColor" stroke="none"/>
+  </g>
+  <!-- a small detached component card, upper-right -->
+  <g class="draw-paths" opacity="0.6" stroke-dasharray="160 160" stroke-dashoffset="160">
+    <rect x="300" y="36" width="64" height="44" rx="6"/>
+    <circle cx="316" cy="52" r="6"/>
+    <line x1="330" y1="50" x2="356" y2="50"/>
+    <line x1="330" y1="62" x2="348" y2="62"/>
+  </g>
+  <!-- cursor / pointer -->
+  <g class="draw-paths" opacity="0.95" stroke-dasharray="120 120" stroke-dashoffset="120">
+    <path d="M250 176 L250 214 L260 204 L266 218 L272 215 L266 201 L280 201 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+  </g>
+  <!-- tap ripples, lower-right -->
+  <g class="draw-paths" opacity="0.5" stroke-dasharray="120 120" stroke-dashoffset="120">
+    <circle cx="322" cy="240" r="10"/>
+    <circle cx="322" cy="240" r="20" opacity="0.6"/>
+  </g>
+  <!-- alignment guide dots -->
+  <g fill="currentColor" stroke="none" opacity="0.55">
+    <circle cx="56" cy="120" r="1.8"/>
+    <circle cx="56" cy="158" r="1.6"/>
+    <circle cx="344" cy="170" r="1.8"/>
+  </g>
+</svg>

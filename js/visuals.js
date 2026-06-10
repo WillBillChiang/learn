@@ -46,7 +46,9 @@
     body:        { r: 168, g: 90,  b: 74  }, // warm clay
     mind:        { r: 107, g: 74,  b: 125 }, // muted violet
     craft:       { r: 176, g: 107, b: 58  }, // burnt umber
-    home:        { r: 125, g: 90,  b: 58  }  // hearth brown
+    home:        { r: 125, g: 90,  b: 58  }, // hearth brown
+    uiux:        { r: 58,  g: 125, b: 140 }, // muted teal-cyan
+    fashion:     { r: 168, g: 84,  b: 122 }  // mauve-rose
   };
 
   function currentScenePalette() {
@@ -379,7 +381,9 @@
     mind:        behaviorMind,
     money:       behaviorWarmHearth,
     craft:       behaviorWarmHearth,
-    home:        behaviorWarmHearth
+    home:        behaviorWarmHearth,
+    uiux:        behaviorGrid,
+    fashion:     behaviorWarmHearth
     // body: base particle field only (warm clay tint already distinguishes it)
   };
 
