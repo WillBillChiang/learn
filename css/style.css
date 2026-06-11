@@ -51,6 +51,11 @@ html {
   scroll-behavior: smooth;
   /* Kill the grey/blue tap flash on iOS/Android over full-bleed card buttons */
   -webkit-tap-highlight-color: transparent;
+  /* Definitive guard against horizontal page scroll on mobile. `clip` (not
+     `hidden`) clips overflow without creating a scroll container, so it can't
+     break position:sticky. body's overflow-x:hidden alone doesn't stop the
+     root element from expanding; clipping at html is what actually holds. */
+  overflow-x: clip;
 }
 
 body {
@@ -1463,7 +1468,11 @@ body[data-scene="cosmos"] #ambient {
 
 .home-masthead {
   position: relative;
-  overflow: visible;
+  /* Clip the decorative orrery horizontally so its intentional bleed never
+     creates page-wide horizontal scroll on narrow screens; keep vertical
+     bleed visible. */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .home-masthead .masthead-inner {
